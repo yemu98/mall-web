@@ -11,6 +11,7 @@ import router from './router'
 import TopHeader from './components/TopHeader.vue'
 import MallFooter from './components/MallFooter.vue'
 import goodsCard from './components/goodsCard.vue'
+import store from './store'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -38,6 +39,7 @@ new Vue({
   el: '#app',
   router,
   components: { App },
+  store,
   template: '<App/>'
 })
 new Vue({

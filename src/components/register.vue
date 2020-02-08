@@ -18,16 +18,26 @@
           class="register_form"
         >
           <el-form-item label="手机号" prop="phone">
-            <el-input type="phone" v-model="user.phone" autocomplete="off" placeholder="*请输入手机号"></el-input>
+            <el-input 
+            type="phone" 
+            v-model="user.phone" 
+            autocomplete="off" 
+            placeholder="*请输入手机号"
+            ></el-input>
           </el-form-item>
           <el-form-item label="名字" prop="name">
-            <el-input type="text" v-model="user.name" autocomplete="off" placeholder="*请输入名字"></el-input>
+            <el-input 
+            type="text" 
+            v-model="user.name" 
+            autocomplete="off"  
+            placeholder="*请输入名字" 
+            ></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pwd">
             <el-input
               type="password"
               v-model="user.pwd"
-              autocomplete="off"
+              autocomplete="new-password"
               placeholder="*请输入密码"
               show-password
             ></el-input>

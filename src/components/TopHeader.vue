@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+  <el-menu :default-active="activedMenu($route.path)" mode="horizontal" @select="handleSelect" menu-trigger="click">
     <el-menu-item index="index">
       <span slot="title">
         <a href="/">
@@ -9,11 +9,19 @@
     </el-menu-item>
     <el-menu-item index="login" v-show="!isLogin">登录</el-menu-item>
     <el-menu-item index="register" v-show="!isLogin">注册</el-menu-item>
-    <el-submenu index="profile" v-if="isLogin">
-      <template slot="title"><i class="el-icon-user-solid"></i>个人中心</template>
-      <el-menu-item index="myOrder"><i class="el-icon-s-order"></i>我的订单</el-menu-item>
-      <el-menu-item index="cart"><i class="el-icon-shopping-cart-full"></i>购物车</el-menu-item>
-      <el-menu-item v-if="isLogin" v-on:click="logout"><i class="el-icon-circle-close"/>退出</el-menu-item>
+    <el-submenu index="profile" v-if="isLogin" >
+      <template slot="title">
+        <i class="el-icon-user-solid"></i>个人中心
+      </template>
+      <el-menu-item index="myOrder">
+        <i class="el-icon-s-order"></i>我的订单
+      </el-menu-item>
+      <el-menu-item index="cart">
+        <i class="el-icon-shopping-cart-full"></i>购物车
+      </el-menu-item>
+      <el-menu-item v-if="isLogin" v-on:click="logout">
+        <i class="el-icon-circle-close" />退出
+      </el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
@@ -44,7 +52,16 @@ export default {
     },
     logout () {
       window.localStorage.removeItem('token')
+      this.$router.push("/")
       this.$router.go(0)
+    },
+    activedMenu (val) {
+      if (val.indexOf('/register') == 0) {
+        return 'register'
+      }
+      if (val.indexOf('/login') == 0) {
+        return 'login'
+      }
     }
   },
   mounted: function () {
