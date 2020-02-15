@@ -2,9 +2,9 @@
   <el-col :span="8" :offset="8" class="register">
     <el-row>
       <el-col>
-        <a href="/">
-          <img src="../assets/logo.png" style="width: 50px;" />
-        </a>
+        <router-link to="/index">
+          <img src="../assets/logo.png" style="width: 50px" />
+        </router-link>
       </el-col>
     </el-row>
     <el-row>
@@ -18,20 +18,10 @@
           class="register_form"
         >
           <el-form-item label="手机号" prop="phone">
-            <el-input 
-            type="phone" 
-            v-model="user.phone" 
-            autocomplete="off" 
-            placeholder="*请输入手机号"
-            ></el-input>
+            <el-input type="phone" v-model="user.phone" autocomplete="off" placeholder="*请输入手机号"></el-input>
           </el-form-item>
           <el-form-item label="名字" prop="name">
-            <el-input 
-            type="text" 
-            v-model="user.name" 
-            autocomplete="off"  
-            placeholder="*请输入名字" 
-            ></el-input>
+            <el-input type="text" v-model="user.name" autocomplete="off" placeholder="*请输入名字"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pwd">
             <el-input
@@ -197,7 +187,6 @@ export default {
 
 <style scoped>
 .register {
-  margin-top: 5rem;
   background-color: white;
   border-radius: 3%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 6px rgba(0, 0, 0, 0.04);

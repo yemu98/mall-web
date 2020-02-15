@@ -1,15 +1,16 @@
 <template>
-  <el-menu :default-active="activedMenu($route.path)" mode="horizontal" @select="handleSelect" menu-trigger="click">
-    <el-menu-item index="index">
-      <span slot="title">
-        <a href="/">
-          <img src="../assets/logo.png" style="width: 50px;padding-left: 10rem;" />
-        </a>
-      </span>
+  <el-menu
+    :default-active="activedMenu($route.path)"
+    mode="horizontal"
+    @select="handleSelect"
+    menu-trigger="click"
+  >
+    <el-menu-item index="/">
+      <img src="../assets/logo.png" style="width: 50px;" />
     </el-menu-item>
     <el-menu-item index="login" v-show="!isLogin">登录</el-menu-item>
     <el-menu-item index="register" v-show="!isLogin">注册</el-menu-item>
-    <el-submenu index="profile" v-if="isLogin" >
+    <el-submenu index="profile" v-if="isLogin">
       <template slot="title">
         <i class="el-icon-user-solid"></i>个人中心
       </template>

@@ -5,6 +5,7 @@ import login from '@/components/login'
 import register from '@/components/register'
 import goodsCard from '@/components/goodsCard'
 import index from '@/components/index'
+import error from '../views/404.vue'
 
 Vue.use(Router)
 
@@ -17,6 +18,7 @@ Router.prototype.push = function push (location) {
 export default new Router({
   routes: [
     {
+      
       path: '/',
       name: '首页',
       component: index,
@@ -65,6 +67,15 @@ export default new Router({
       meta: {
         title: '商品卡片'
       }
-    }
+    },
+    {
+      path: '*/',
+      name: '404',
+      component: error,
+      meta: {
+        title: '404'
+      }
+    },
   ]
+  
 })

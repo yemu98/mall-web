@@ -6,9 +6,9 @@
       </el-carousel-item>
     </el-carousel>
     <el-button v-on:click="addCard()">添加</el-button>
-    <el-row v-if="cards && cards.length > 0">
-      <el-col :span="4" v-for="(card,index) in cards" :key="index" >
-        <goodsCard @func="getContent(index)" :product="card.product" :imgUrl="card.imgUrl"></goodsCard>
+    <el-row>
+      <el-col :span="4" v-for="(card,index) in cards" :key="index">
+        <goodsCard @unlike="delete_card(index)" :product="card.product" :imgUrl="card.imgUrl"></goodsCard>
       </el-col>
     </el-row>
   </div>
@@ -43,18 +43,25 @@ export default {
         method: 'get',
         url: '/product/get'
       }).then((res) => {
-        var products = []
-        products = res.data.data.products
-        products.forEach(element => {
+        var productlist = []
+        productlist = res.data.data.productlist
+        productlist.forEach(element => {
           var product = element.product
           var imgs = element.imgs
-          var imgUrl = imgs[0].path
-          var card = { product: product, imgUrl: imgUrl }
+          var card = {}
+          if (imgs[0] !== undefined) {
+            var imgUrl = imgs[0].path
+            card.product = product
+            card.imgUrl = imgUrl
+          }
+          else {
+            card.product = product
+          }
           this.cards.push(card)
         })
       })
     },
-    getContent (index) {
+    delete_card (index) {
       this.cards.splice(index, 1)
     }
   },

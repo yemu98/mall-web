@@ -2,15 +2,16 @@
   <el-card shadow="hover" :body-style="{ padding: '20px' }">
     <el-row class="card-header">
       <p style="display:none">{{product.id}}</p>
-      <el-button class="unLikeBtn" v-on:click="unLike()" type="text" title="不喜欢">
+      <el-button class="unLikeBtn" @click="unLike()" type="text" title="不喜欢">
         <i class="el-icon-close"></i>
       </el-button>
     </el-row>
+    <router-link :to="{path: '/product',query: {id:product.id}}">
     <el-row class="card-img">
-      <el-image :src="imgUrl" class="image">
-        <div slot="placeholder" class="image-slot">
-        加载中<span class="dot">...</span>
-      </div>
+      <el-image :src="imgUrl" class="image" fit="scale-down" lazy>
+        <div slot="error" class="image-slot">
+          <span>加载失败</span>
+        </div>
       </el-image>
     </el-row>
     <el-row class="card-name">
@@ -22,7 +23,9 @@
     <el-row class="card-price">
       <p class="price">￥{{product.price}}</p>
     </el-row>
+      </router-link>
   </el-card>
+
 </template>
 
 <script>
@@ -34,7 +37,6 @@ export default {
     imgUrl: {
       type: String,
       default () {
-        return 'http://img.yemuc.xyz/loading.gif'
       }
     }
   },
@@ -44,44 +46,53 @@ export default {
   },
   methods: {
     unLike () {
-      this.$emit('func', '')
+      this.$emit('unlike', '')
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .el-card:hover {
   transform: translate(0px, -3px);
-  box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.8);
 }
 .el-card {
-  margin: 5px;
   padding: 0;
   height: 300px;
+  width: 180px;
   border-radius: 5px;
+}
+.card-img {
+  display: block;
+  height: 140px;
+  width: 140px;
+}
+.image-slot {
+  display: inline-block;
+  width: 100%;
+  line-height: 150px;
+  border-radius: 5px;
+  color: #999;
+  font-weight: 100;
+  background-color: rgba(214, 214, 214, 0.3);
 }
 .card-header {
   width: 100%;
-  height: 10%;
-  /* border: solid 1px; */
+  height: 10px;
 }
-.card-img {
-  height: 50%;
-  overflow: hidden;
-}
+
 .card-name {
-  margin-top: 5px;
-  height: 10%;
+  height: 20px;
+  color: rgb(105, 105, 105);
   overflow: hidden;
 }
 .card-info {
-  margin-top: 5px;
-  height: 20%;
+  height: 50px;
   overflow: hidden;
 }
 .card-price {
-  height: 10%;
+  height: 40px;
   overflow: hidden;
 }
 .unLikeBtn {
@@ -128,14 +139,5 @@ export default {
 .price {
   color: rgb(223, 7, 7);
   font-weight: bold;
-}
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
 }
 </style>

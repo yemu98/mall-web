@@ -2,9 +2,9 @@
   <el-col :span="8" :offset="8" class="login">
     <el-row>
       <el-col>
-        <a href="/">
+        <router-link to="/index">
           <img src="../assets/logo.png" style="width: 50px;" />
-        </a>
+        </router-link>
       </el-col>
     </el-row>
     <el-row>
@@ -58,7 +58,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .el-col {
-  padding: .6em;
+  padding: 0.6em;
 }
 a {
   text-decoration: none;

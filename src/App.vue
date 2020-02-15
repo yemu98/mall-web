@@ -2,16 +2,16 @@
   <div id="app" ref="homePage">
     <el-container>
       <el-header :style="{padding: 0}" v-if="updateHeader">
-        <topHeader ref="header"/>
+        <topHeader ref="header" />
       </el-header>
-      <el-main v-bind:style="{minHeight: minHeight + 'px'}">
+      <el-main>
         <el-col :span="20" :offset="2">
-<router-view class="router-view"></router-view>
+          <router-view />
         </el-col>
-        </el-main>
+      </el-main>
       <el-footer :style="{padding: 0}">
-        <mallFooter />
-      </el-footer >
+        <mallFooter/>
+      </el-footer>
     </el-container>
   </div>
 </template>
@@ -19,7 +19,7 @@
 <script>
 export default {
   name: 'App',
-  // 暴露方法
+  // 暴露方法（刷新导航栏）
   provide () {
     return {
       refreshHeader: this.refreshHeader
@@ -30,10 +30,6 @@ export default {
       minHeight: 0,
       updateHeader: true
     }
-  },
-  mounted () {
-    this.minHeight = document.documentElement.clientHeight - 120
-    window.onresize = () => { this.minHeight = document.documentElement.clientHeight - 120 }
   },
   methods: {
     refreshHeader () {
@@ -54,15 +50,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-  /* margin-top: 60px;  */
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
-.el-container{
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
+.el-main{
+  min-height: calc(100vh - 120px)
 }
-/* .router-view{
-  width: 80%;
-} */
+
 </style>

@@ -13,6 +13,7 @@ import MallFooter from './components/MallFooter.vue'
 import goodsCard from './components/goodsCard.vue'
 import store from './store'
 
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 // 全局注册axios
@@ -41,9 +42,4 @@ new Vue({
   components: { App },
   store,
   template: '<App/>'
-})
-new Vue({
-  el: '#app2',
-  router,
-  components: { App }
 })
