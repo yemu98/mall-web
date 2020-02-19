@@ -145,7 +145,7 @@ export default {
       this.$refs[formName].resetFields()
     },
     register () {
-      // 拼成一个json对象，因为传参方式是request payload,参数格式是json
+      // 拼成一个formdata对象，因为传参方式是request payload,参数格式是json
       let user = this.qs.stringify(this.user)
       this.$axios({
         method: 'post',

@@ -2,11 +2,11 @@
   <el-card shadow="hover" :body-style="{ padding: '20px' }">
     <el-row class="card-header">
       <p style="display:none">{{product.id}}</p>
-      <el-button class="unLikeBtn" @click="unLike()" type="text" title="不喜欢">
+      <el-button class="unLikeBtn" @click="unLike(product.id)" type="text" title="不喜欢">
         <i class="el-icon-close"></i>
       </el-button>
     </el-row>
-    <router-link :to="{path: '/product',query: {id:product.id}}">
+    <router-link :to="{path: '/product',query: {id:product.id}}" @click.native="click(product.id)">
     <el-row class="card-img">
       <el-image :src="imgUrl" class="image" fit="scale-down" lazy>
         <div slot="error" class="image-slot">
@@ -18,7 +18,7 @@
       <span class="name">{{product.name}}</span>
     </el-row>
     <el-row class="card-info">
-      <span class="info">{{product.title}}</span>
+      <span class="info">{{product.info}}</span>
     </el-row>
     <el-row class="card-price">
       <p class="price">￥{{product.price}}</p>
@@ -45,8 +45,26 @@ export default {
     }
   },
   methods: {
-    unLike () {
-      this.$emit('unlike', '')
+    unLike (pid) {
+      this.$emit('unlike', '')// 让父组件删除此组件
+      let uid = this.$store.state.uid
+      let data = this.qs.stringify({
+        uid: uid,
+        pid: pid
+      })
+      this.$axios.post("/user/unlike/add",data).then((res) => {
+        console.log(res)
+      })
+    },
+    click (pid) {
+      let uid = this.$store.state.uid
+      let data =this.qs.stringify({
+        uid: uid,
+        pid: pid
+      })
+      this.$axios.post("/user/history/click/add",data).then((res) => {
+        console.log(res)
+      })
     }
   }
 }
@@ -55,7 +73,7 @@ export default {
 <style>
 .el-card:hover {
   transform: translate(0px, -3px);
-  box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 1);
 }
 .el-card {
   padding: 0;

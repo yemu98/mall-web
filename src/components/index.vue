@@ -41,16 +41,19 @@ export default {
     addCard () {
       this.$axios({
         method: 'get',
-        url: '/product/get'
+        url: '/product/getByUser',
+        params:{
+          uid: this.$store.state.uid
+        }
       }).then((res) => {
         var productlist = []
-        productlist = res.data.data.productlist
+        productlist = res.data.data.productList
         productlist.forEach(element => {
           var product = element.product
-          var imgs = element.imgs
+          var imgs = element.imgList
           var card = {}
           if (imgs[0] !== undefined) {
-            var imgUrl = imgs[0].path
+            var imgUrl = imgs[0].url
             card.product = product
             card.imgUrl = imgUrl
           }

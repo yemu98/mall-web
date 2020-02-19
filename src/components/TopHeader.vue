@@ -83,6 +83,17 @@ export default {
     if (window.localStorage.getItem('token') != null) {
       this.isLogin = true
     }
+    this.$axios.get("/getId",
+      {
+        headers: {
+        'token': window.localStorage.getItem('token')
+      }
+      }).then((res) => {
+        if (res.data.data!=null){
+        let uid = res.data.data.uid
+        this.$store.state.uid = uid
+        }
+      })
   }
 }
 </script>
