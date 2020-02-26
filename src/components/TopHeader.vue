@@ -2,7 +2,7 @@
   <el-menu
     :default-active="activedMenu($route.path)"
     mode="horizontal"
-    @select="handleSelect"
+    @select="handleMenuSelect"
     menu-trigger="click"
   >
     <el-menu-item index="/">
@@ -24,6 +24,18 @@
         <i class="el-icon-circle-close" />退出
       </el-menu-item>
     </el-submenu>
+    <div class="searchWrap">
+      <el-autocomplete
+        v-model="searchContent"
+        :fetch-suggestions="querySearchAsync"
+        placeholder="请输入内容"
+        @select="handleSuggestionSelect"
+        class="search"
+        @keyup.enter.native="searchSubmit"
+      >
+        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+      </el-autocomplete>
+    </div>
   </el-menu>
 </template>
 
@@ -36,6 +48,9 @@
   border-block-color: black;
   margin-left: 0;
 }
+.search {
+  line-height: 60px;
+}
 </style>
 
 <script>
@@ -44,11 +59,15 @@ export default {
     return {
       activeIndex: '1',
       logourl: require('../assets/logo.png'),
-      isLogin: false
+      isLogin: false,
+      searchContent: '',
+      suggestions: [{
+        'value': 'test'
+      }]
     }
   },
   methods: {
-    handleSelect (key) {
+    handleMenuSelect (key) {
       this.$router.push({ path: key })
     },
     logout () {
@@ -63,37 +82,50 @@ export default {
       if (val.indexOf('/login') == 0) {
         return 'login'
       }
+    },
+    querySearchAsync (queryString, callback) {
+      let suggestions = this.suggestions
+      let results = queryString ? suggestions.filter(this.createStateFilter(queryString)) : suggestions
+      callback(results)
+    },
+    createStateFilter (queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      }
+    },
+    handleSuggestionSelect (item) {
+      console.log(item);
+      this.searchContent = item.value
+      this.searchSubmit()
+    },
+    searchSubmit () {
+      this.$router.push({ path: '/search', query: { searchContent: this.searchContent } })
+    },
+    getUid () {
+      this.$axios.get("/getId",
+        {
+          headers: {
+            'token': window.localStorage.getItem('token')
+          }
+        }).then((res) => {
+          if (res.data.data != null) {
+            let uid = res.data.data.uid
+            this.$store.state.uid = uid
+            this.isLogin = true
+          } else {
+            this.isLogin = false
+          }
+        })
     }
   },
   mounted: function () {
-    this.$axios({
-      methods: 'get',
-      url: '/isLogin',
-      headers: {
-        'token': window.localStorage.getItem('token')
-      }
-    })
-      .then((res) => {
-        if (res.data.status === 0) {
-          this.isLogin = true
-        } else {
-          this.isLogin = false
-        }
-      })
-    if (window.localStorage.getItem('token') != null) {
-      this.isLogin = true
+    let token = window.localStorage.getItem('token')
+    if (token == null || token == '' || token == undefined) {
+      this.isLogin = false
     }
-    this.$axios.get("/getId",
-      {
-        headers: {
-        'token': window.localStorage.getItem('token')
-      }
-      }).then((res) => {
-        if (res.data.data!=null){
-        let uid = res.data.data.uid
-        this.$store.state.uid = uid
-        }
-      })
+    else {
+      this.getUid()
+    }
   }
 }
 </script>

@@ -6,7 +6,7 @@
         <i class="el-icon-close"></i>
       </el-button>
     </el-row>
-    <router-link :to="{path: '/product',query: {id:product.id}}" @click.native="click(product.id)">
+    <router-link :to="{path: '/item',query: {id:product.id}}" @click.native="click(product.id)">
     <el-row class="card-img">
       <el-image :src="imgUrl" class="image" fit="scale-down" lazy>
         <div slot="error" class="image-slot">
@@ -80,6 +80,9 @@ export default {
   height: 300px;
   width: 180px;
   border-radius: 5px;
+}
+a{
+  text-decoration: none
 }
 .card-img {
   display: block;

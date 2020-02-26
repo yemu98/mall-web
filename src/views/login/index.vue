@@ -3,7 +3,7 @@
     <el-row>
       <el-col>
         <router-link to="/index">
-          <img src="../assets/logo.png" style="width: 50px;" />
+          <img :src="logourl" style="width: 50px;" />
         </router-link>
       </el-col>
     </el-row>
@@ -78,11 +78,10 @@ export default {
       msg: 'hello',
       account: '',
       password: '',
-      logourl: require('../assets/logo.png'),
+      logourl: require('../../assets/logo.png'),
       loading: false,
       account_tips: false,
       pwd_tips: false
-
     }
   },
   methods: {

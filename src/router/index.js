@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import login from '@/components/login'
-import register from '@/components/register'
 import goodsCard from '@/components/goodsCard'
-import index from '@/components/index'
 import error from '../views/404.vue'
+import search from '../views/search'
 
 Vue.use(Router)
 
@@ -21,7 +18,7 @@ export default new Router({
       
       path: '/',
       name: '首页',
-      component: index,
+      component: () => import('../views/index'),
       meta: {
         title: '首页'
       }
@@ -30,24 +27,16 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: index,
+      component: () => import('../views/index'),
       meta: {
         title: '首页'
       }
 
     },
     {
-      path: '/hello',
-      name: 'HelloWorld',
-      component: HelloWorld,
-      meta: {
-        title: 'hello'
-      }
-    },
-    {
       path: '/login',
       name: 'login',
-      component: login,
+      component: () => import('../views/login'),
       meta: {
         title: '登录'
       }
@@ -55,7 +44,7 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: register,
+      component: () => import('../views/register'),
       meta: {
         title: '注册'
       }
@@ -74,6 +63,22 @@ export default new Router({
       component: error,
       meta: {
         title: '404'
+      }
+    },
+    {
+      path: '/search',
+      name: '搜索',
+      component: search,
+      meta: {
+        title: '搜索'
+      }
+    },
+    {
+      path: '/item',
+      name: '商品详情',
+      component: () => import('../views/item'),
+      meta: {
+        title: '搜索'
       }
     },
   ]

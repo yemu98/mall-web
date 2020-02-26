@@ -35,6 +35,18 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
+// 添加axios拦截器 让请求时在header中带上token
+axios.interceptors.request.use(
+  config => {
+    if (localStorage.token!=null) {  // 判断是否存在token
+      config.headers.token = localStorage.token 
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  })
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

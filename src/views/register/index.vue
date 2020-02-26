@@ -1,9 +1,10 @@
+/** 注册 */
 <template>
   <el-col :span="8" :offset="8" class="register">
     <el-row>
       <el-col>
         <router-link to="/index">
-          <img src="../assets/logo.png" style="width: 50px" />
+          <img :src="logourl" style="width: 50px" />
         </router-link>
       </el-col>
     </el-row>
@@ -106,6 +107,7 @@ export default {
       callback()
     }
     return {
+      logourl: require('../../assets/logo.png'),
       user: {
         phone: '',
         name: '',

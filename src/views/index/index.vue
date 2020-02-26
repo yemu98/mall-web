@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <el-carousel indicator-position="outside">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3>{{ item }}</h3>
@@ -11,7 +11,9 @@
         <goodsCard @unlike="delete_card(index)" :product="card.product" :imgUrl="card.imgUrl"></goodsCard>
       </el-col>
     </el-row>
+    <el-backtop></el-backtop>
   </div>
+  
 </template>
 
 <style scoped>
@@ -42,8 +44,8 @@ export default {
       this.$axios({
         method: 'get',
         url: '/product/getByUser',
-        params:{
-          uid: this.$store.state.uid
+        params: {
+          'uid': this.uid
         }
       }).then((res) => {
         var productlist = []
@@ -66,10 +68,25 @@ export default {
     },
     delete_card (index) {
       this.cards.splice(index, 1)
+    },
+    scrollLoad () {
+      let isLoading = false
+      // 距离200px时加载一次
+      window.onscroll = () => {
+        let bottomOfWindow  = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
+        if (bottomOfWindow && !isLoading){
+          isLoading = true
+        }
+      }
     }
   },
   mounted: function () {
     this.addCard()
+    // 添加滚动事件
+    this.scrollLoad()
+  },
+  created () {
+    this.uid = this.$store.state.uid
   }
 }
 </script>
