@@ -1,19 +1,25 @@
 <template>
-  <div >
+  <div>
     <el-carousel indicator-position="outside">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3>{{ item }}</h3>
       </el-carousel-item>
     </el-carousel>
-    <el-row>
-      <el-col :span="4" v-for="(card,index) in cards" :key="index" class="goods_wrap">
-        <goodsCard @unlike="delete_card(index)" :product="card.product" :imgUrl="card.imgUrl"></goodsCard>
-      </el-col>
-      <loading :loading="this.$store.state.goodCardLoading" :text="loadingText"></loading>
+    <!-- <el-row> -->
+    <el-row class="goods_wrap">
+      <goodsCard
+        v-for="(card,index) in cards"
+        :key="index"
+        @unlike="delete_card(index)"
+        :product="card.product"
+        :imgUrl="card.imgUrl"
+        class="goodsCard"
+      ></goodsCard>
     </el-row>
+    <loading :loading="this.$store.state.goodCardLoading" :text="loadingText"></loading>
+    <!-- </el-row> -->
     <el-backtop></el-backtop>
   </div>
-  
 </template>
 
 <style scoped>
@@ -30,9 +36,16 @@
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
-  .goods_wrap{
-    padding: 5px;
-  }
+.goods_wrap {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  
+}
+.goodsCard {
+  margin: 5px;
+  flex: 1 0 180px;
+}
 </style>
 <script>
 import loading from '../../components/loading'
@@ -59,7 +72,7 @@ export default {
       }).then((res) => {
         var productlist = []
         productlist = res.data.data.productList
-        if (productlist.length<1){
+        if (productlist.length < 1) {
           this.$store.state.goodCardLoading = false
           this.loadingText = '到底啦~~'
           return
@@ -80,14 +93,14 @@ export default {
         })
         this.$store.state.pageNo++
         this.$store.state.goodCardLoading = false
-      }).catch((err)=>{
-         this.$message({
-            showClose: true,
-            message: err,
-            type: 'error'
-          })
-          this.$store.state.goodCardLoading = false
-          this.loadingText = '加载失败~~'
+      }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: err,
+          type: 'error'
+        })
+        this.$store.state.goodCardLoading = false
+        this.loadingText = '加载失败~~'
       })
     },
     delete_card (index) {
@@ -97,8 +110,8 @@ export default {
       // let isLoading = false
       // 距离200px时加载一次
       window.onscroll = () => {
-        let bottomOfWindow  = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
-        if (bottomOfWindow && ! this.$store.state.goodCardLoading){
+        let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
+        if (bottomOfWindow && !this.$store.state.goodCardLoading) {
           this.$store.state.goodCardLoading = true
           this.addCard()
         }

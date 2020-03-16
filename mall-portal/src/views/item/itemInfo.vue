@@ -64,11 +64,10 @@ export default {
   height: 50%;
 }
 .item-info-name{
-    font-weight: 700;
-    font-stretch: normal;
-    font-size: 16px;
-    line-height: 28px;
-    color: #666;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    color: #212121;
     padding-top: 10px;
     margin-bottom: 5px;
   overflow: hidden;

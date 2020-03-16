@@ -1,9 +1,14 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="4" v-for="(card,index) in cards" :key="index">
-        <goodsCard @unlike="delete_card(index)" :product="card.product" :imgUrl="card.imgUrl"></goodsCard>
-      </el-col>
+    <el-row class="goods_wrap">
+      <goodsCard
+        v-for="(card,index) in cards"
+        :key="index"
+        @unlike="delete_card(index)"
+        :product="card.product"
+        :imgUrl="card.imgUrl"
+        class="goodsCard"
+      ></goodsCard>
     </el-row>
     <el-backtop></el-backtop>
   </div>
@@ -51,7 +56,7 @@ export default {
     this.addCard(this.$route.query.searchContent)
   },
   watch: {
-    '$route' (){
+    '$route' () {
       this.addCard(this.$route.query.searchContent)
     }
   }
@@ -59,4 +64,14 @@ export default {
 </script>
 
 <style>
+.goods_wrap {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-start;
+  
+}
+.goodsCard {
+  margin: 5px;
+    flex: 1 0 180px;
+}
 </style>
