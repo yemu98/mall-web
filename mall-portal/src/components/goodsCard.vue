@@ -6,26 +6,25 @@
         <i class="el-icon-close"></i>
       </el-button>
     </el-row>
-    <router-link :to="{path: '/item',query: {id:product.id}}" @click.native="click(product.id)">
-    <el-row class="card-img">
-      <el-image :src="imgUrl" class="image" fit="scale-down" lazy>
-        <div slot="error" class="image-slot">
-          <span>加载失败</span>
-        </div>
-      </el-image>
-    </el-row>
-    <el-row class="card-name">
-      <span class="name">{{product.name}}</span>
-    </el-row>
-    <el-row class="card-info">
-      <span class="info">{{product.info}}</span>
-    </el-row>
-    <el-row class="card-price">
-      <p class="price">￥{{product.price}}</p>
-    </el-row>
-      </router-link>
+    <router-link :to="{path: '/item',query: {id:product.id}}">
+      <el-row class="card-img">
+        <el-image :src="imgUrl" class="image" fit="scale-down" lazy>
+          <div slot="error" class="image-slot">
+            <span>加载失败</span>
+          </div>
+        </el-image>
+      </el-row>
+      <el-row class="card-name">
+        <span class="name">{{product.name}}</span>
+      </el-row>
+      <el-row class="card-info">
+        <span class="info">{{product.info}}</span>
+      </el-row>
+      <el-row class="card-price">
+        <p class="price">￥{{product.price}}</p>
+      </el-row>
+    </router-link>
   </el-card>
-
 </template>
 
 <script>
@@ -52,17 +51,17 @@ export default {
         uid: uid,
         pid: pid
       })
-      this.$axios.post("/user/unlike/add",data).then((res) => {
+      this.$axios.post("/user/unlike/add", data).then((res) => {
         console.log(res)
       })
     },
     click (pid) {
       let uid = this.$store.state.uid
-      let data =this.qs.stringify({
+      let data = this.qs.stringify({
         uid: uid,
         pid: pid
       })
-      this.$axios.post("/user/history/click/add",data).then((res) => {
+      this.$axios.post("/user/history/click/add", data).then((res) => {
         console.log(res)
       })
     }
@@ -70,7 +69,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .el-card:hover {
   transform: translate(0px, -3px);
   box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 1);
@@ -81,8 +80,12 @@ export default {
   width: 180px;
   border-radius: 5px;
 }
-a{
-  text-decoration: none
+a {
+  text-decoration: none;
+  outline: none;
+}
+.router-link-active{
+  text-decoration: none;
 }
 .card-img {
   display: block;
@@ -161,4 +164,5 @@ a{
   color: rgb(223, 7, 7);
   font-weight: bold;
 }
+
 </style>
