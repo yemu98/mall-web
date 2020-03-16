@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import goodsCard from '@/components/goodsCard'
-import error from '../views/404.vue'
-import search from '../views/search'
+
 
 Vue.use(Router)
 
@@ -13,9 +11,9 @@ Router.prototype.push = function push (location) {
 }
 
 export default new Router({
+  mode: 'history',
   routes: [
-    {
-      
+    { 
       path: '/',
       name: '首页',
       component: () => import('../views/index'),
@@ -52,7 +50,7 @@ export default new Router({
     {
       path: '/card',
       name: 'card',
-      component: goodsCard,
+      component: () => import('../components/goodsCard.vue'),
       meta: {
         title: '商品卡片'
       }
@@ -60,7 +58,7 @@ export default new Router({
     {
       path: '*/',
       name: '404',
-      component: error,
+      component: () => import('../views/404.vue'),
       meta: {
         title: '404'
       }
@@ -68,7 +66,7 @@ export default new Router({
     {
       path: '/search',
       name: '搜索',
-      component: search,
+      component: () => import('../views/search'),
       meta: {
         title: '搜索'
       }
@@ -78,9 +76,17 @@ export default new Router({
       name: '商品详情',
       component: () => import('../views/item'),
       meta: {
-        title: '搜索'
+        title: '商品详情'
       }
     },
+    {
+      path: '/cart',
+      name: '购物车',
+      component: () => import('../views/cart'),
+      meta: {
+        title: '购物车'
+      }
+    }
   ]
   
 })

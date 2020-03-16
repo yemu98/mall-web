@@ -2,16 +2,16 @@
   <div class="item-info-wrap">
     <el-row>
       <el-col :span="24" class="item-info-text-wrap">
-        <p class="item-info-name">{{ name }}</p>
-        <p class="item-info-text">{{ info }}</p>
+        <p class="item-info-name">{{ product.name }}</p>
+        <p class="item-info-text">{{ product.info }}</p>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24" class="item-info-price-wrap">
-        <span class="text">售  价 </span>
-        <p class="item-info-price">￥{{ price }}</p><br>
-        <p class="text">库 存 </p>
-        <p class="item-info-status">{{ stock>0?'有货':'缺货' }}</p>
+        <span class="text">售  价:</span>
+        <p class="item-info-price">￥{{ product.price }}</p><br>
+        <p class="text">库 存: </p>
+        <p class="item-info-status">{{ product.stock>0?'有货':'缺货' }}</p>
       </el-col>
     </el-row>
       <p class="text">选择版本</p>
@@ -22,7 +22,7 @@
     </el-row>
     <el-row class="buy-wrap">
       <el-col :span="3">
-       <el-input-number v-model="number" :min="1" :max="stock"></el-input-number>
+       <el-input-number v-model="number" :min="1" :max="product.stock"></el-input-number>
       </el-col>
       <el-col :span="5" :offset="4">
         <el-button >加入购物车</el-button>
@@ -37,11 +37,21 @@ export default {
   name: 'itemInfo',
   data () {
     return {
-      name: '商品名很长长很很长很长很长很长长很长很长很长很很长很长很长很长很长很长很长很长很长很长很长很长很长很长 很长很长',
-      info: '商品详情，可以长很长长很长很长 很长很长很长很长很长很长很长很长很长很长很长很长很长很长 很长很长很长很长很长很长很长很长很长很长很长很长很长很长 很长很长很长很长很长很长很长很长很长很长很长很长很长很长 很长很长aaaaaaaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊',
-      price: 2999.00,
-      number: 1,
-      stock: 100
+      number: 1
+    }
+  },
+  props: {
+    product:{
+		id: '',
+		info: '',
+		name: '',
+		brand: '',
+		price: '',
+		category: '',
+		status: false,
+		stock: 0,
+		createTime: '',
+		updateTime: ''
     }
   }
 }
