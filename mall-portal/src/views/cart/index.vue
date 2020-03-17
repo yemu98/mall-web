@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-button @click="get()">get</el-button>
     <el-table
       ref="multipleTable"
       :data="tableData"
@@ -89,6 +90,12 @@ export default {
         }
       })
       return sums;
+    },
+    get() {
+      this.$axios.get('/cart',)
+      .then((res) => {
+        console.log(res)
+      })
     }
   }
 }

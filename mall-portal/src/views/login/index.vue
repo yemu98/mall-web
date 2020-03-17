@@ -1,61 +1,73 @@
 <template>
-  <el-col :span="8" :offset="8" class="login">
-    <el-row>
-      <el-col>
-        <router-link to="/index">
-          <img :src="logourl" style="width: 50px;" />
-        </router-link>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <el-input placeholder="*请输入手机号" v-model="account" clearable></el-input>
-        <el-alert v-if="account_tips" title="请输入账号！" type="error" show-icon></el-alert>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <el-input
-          placeholder="*请输入密码"
-          v-model="password"
-          clearable
-          @keyup.enter.native="login"
-          show-password
-          autocomplete="new-password"
-        ></el-input>
-        <el-alert v-if="pwd_tips" title="请输入密码！" type="error" show-icon></el-alert>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <router-link to="register">
-          <el-link>立即注册</el-link>
-        </router-link>|
-        <router-link to="forgetPwd">
-          <el-link>忘记密码？</el-link>
-        </router-link>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <el-button
-          ref="login_btn"
-          type="primary"
-          style="width:100%"
-          v-on:click="login"
-          :loading="loading"
-        >登录</el-button>
-      </el-col>
-    </el-row>
-  </el-col>
+  <div class="login_wrap">
+    <el-col class="login">
+      <el-row>
+        <el-col>
+          <router-link to="/index">
+            <img :src="logourl" style="width: 50px;" />
+          </router-link>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <el-input placeholder="*请输入手机号" v-model="account" clearable></el-input>
+          <el-alert v-if="account_tips" title="请输入账号！" type="error" show-icon></el-alert>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <el-input
+            placeholder="*请输入密码"
+            v-model="password"
+            clearable
+            @keyup.enter.native="login"
+            show-password
+            autocomplete="new-password"
+          ></el-input>
+          <el-alert v-if="pwd_tips" title="请输入密码！" type="error" show-icon></el-alert>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <router-link to="register">
+            <el-link>立即注册</el-link>
+          </router-link>|
+          <router-link to="forgetPwd">
+            <el-link>忘记密码？</el-link>
+          </router-link>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <el-button
+            ref="login_btn"
+            type="primary"
+            style="width:100%"
+            v-on:click="login"
+            :loading="loading"
+          >登录</el-button>
+        </el-col>
+      </el-row>
+    </el-col>
+  </div>
 </template>
 
 <style>
+.login_wrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
 .login {
-  margin-top: 5rem;
+    display: flex;
+  flex-direction: column;
+  align-self: center;
+  /* margin-top: 5rem; */
   background-color: white;
   border-radius: 3%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 6px rgba(0, 0, 0, 0.04);
+  width: 400px;
 }
 .el-col {
   padding: 0.6em;

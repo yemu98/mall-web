@@ -1,6 +1,7 @@
 /** 注册 */
 <template>
-  <el-col :span="8" :offset="8" class="register">
+<div class="register_wrap">
+<el-col class="register">
     <el-row>
       <el-col>
         <router-link to="/index">
@@ -51,6 +52,8 @@
       </el-col>
     </el-row>
   </el-col>
+</div>
+  
 </template>
 
 <script>
@@ -188,12 +191,27 @@ export default {
 </script>
 
 <style scoped>
+.register_wrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
 .register {
+   display: flex;
+  flex-direction: column;
+  align-self: center;
   background-color: white;
   border-radius: 3%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 6px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   padding: 20px;
+  width: 400px;
+}
+@media screen and (max-width: 600px) {
+  .register{
+    width: 100%;
+  }
 }
 .register_form {
   padding: 1rem;
