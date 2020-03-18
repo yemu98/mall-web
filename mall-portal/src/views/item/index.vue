@@ -6,9 +6,15 @@
       <item-preview class="item-preview" :imgList="item.imgList"></item-preview>
       <item-info class="item-info" :product="item.product"></item-info>
     </div>
-    <div class="item-detail-wrap">
-      <item-detail :detailImgList="this.item.detailImgList"></item-detail>
-    </div>
+    <el-divider></el-divider>
+    <el-tabs v-model="activeName" :stretch=true >
+      <el-tab-pane label="商品介绍" name="first" >
+        <div class="item-detail-wrap">
+          <item-detail :detailImgList="this.item.detailImgList"></item-detail>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="评价" name="second">配置管理</el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -20,6 +26,7 @@ export default {
   name: 'item',
   data () {
     return {
+      activeName: 'first',
       item: {
         product: {
         },
@@ -41,7 +48,7 @@ export default {
           'id': this.$route.query.id
         }
       }).then((res) => {
-        this.item = res.data
+        this.item = res.data.data
         document.title = this.item.product.name != null ? this.item.product.name : '错误'
       })
         .catch((err) => {
@@ -56,15 +63,19 @@ export default {
 </script>
 
 <style>
+.el-tabs__item:hover{color: rgba(255, 0, 0);}
+.el-tabs__item.is-active{color: rgb(195, 4, 4);}
+.el-tabs__active-bar{background-color: rgba(170, 2, 2);}
 .item-wrap {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   /* border: 1px solid rgb(200, 197, 197); */
   background: white;
+  border-radius: 5px;
 }
 .item-intro-wrap {
   display: flex;
   /* align-items: ; */
-  height: 600px;
+  height: 500px;
   /* border:1px solid black; */
 }
 .item-preview {
