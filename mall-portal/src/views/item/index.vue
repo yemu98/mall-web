@@ -13,7 +13,7 @@
           <item-detail :detailImgList="this.item.detailImgList"></item-detail>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="评价" name="second">配置管理</el-tab-pane>
+      <el-tab-pane label="评价" name="second">评价</el-tab-pane>
     </el-tabs>
   </div>
 </template>

@@ -33,15 +33,31 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
   next()
-})
+  // 需要登录页面拦截
+  if (to.matched.some(res => res.meta.requireLogin)) {
+    if (localStorage.getItem('token')) {
+      next()
+    }
+    else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  }
+  else {
+    next()
+  }
+}
+)
 
 // 添加axios拦截器 让请求时在header中带上token
 axios.interceptors.request.use(
   config => {
     // 判断是否存在token
-    if (localStorage.token!=null) {  
+    if (localStorage.token != null) {
       // 从localStorage取token放入请求头
-      config.headers.token = localStorage.token 
+      config.headers.token = localStorage.token
     }
     return config;
   },

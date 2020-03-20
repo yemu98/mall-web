@@ -63,7 +63,6 @@ export default {
       this.$axios.post('/cart',cart
       )
         .then((res) => {
-          console.log(res)
           this.$message({
             showClose: true,
             message: res.data.message,

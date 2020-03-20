@@ -16,7 +16,7 @@ export default new Router({
     { 
       path: '/',
       name: '首页',
-      component: () => import('../views/index'),
+      component: () => import('../views/home'),
       meta: {
         title: '首页'
       }
@@ -25,7 +25,7 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: () => import('../views/index'),
+      component: () => import('../views/home'),
       meta: {
         title: '首页'
       }
@@ -84,7 +84,17 @@ export default new Router({
       name: '购物车',
       component: () => import('../views/cart'),
       meta: {
+        requireLogin: true,
         title: '购物车'
+      }
+    },
+    {
+      path: '/createOrder',
+      name: 'createOrder',
+      component: () => import('../views/order/createOrder.vue'),
+      meta: {
+        requireLogin: true,
+        title: '创建订单'
       }
     }
   ]
