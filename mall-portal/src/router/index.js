@@ -11,7 +11,7 @@ Router.prototype.push = function push (location) {
 }
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     { 
       path: '/',
@@ -96,7 +96,36 @@ export default new Router({
         requireLogin: true,
         title: '创建订单'
       }
-    }
+    },
+    {
+      path: '/address',
+      component: () => import('../views/address'),
+      meta: {
+        requireLogin: true,
+        title: '地址管理'
+      },
+      children: [
+        {
+          path: '',
+          name: 'addressTable',
+          component: () =>import('../views/address/table.vue'),
+          meta: {
+            requireLogin: true,
+            title: '地址管理'
+          }
+        },
+        {
+          path: 'add',
+          name: 'addAddress',
+          component: () => import('../views/address/add.vue'),
+          meta :{
+            requireLogin: true,
+            title: '新建地址'
+          }
+        }
+      ]
+    },
+    
   ]
   
 })

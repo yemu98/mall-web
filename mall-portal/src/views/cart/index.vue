@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table
+      v-loading="loading"
       ref="multipleTable"
       :data="cartData"
       tooltip-effect="dark"
@@ -73,11 +74,14 @@ export default {
       cartData: [],
       selection: [],
       deleteBtnVisible: false,
-      isUpdate: false
+      isUpdate: false,
+      loading: true
     }
   },
   created () {
     this.get()
+  },
+  components: {
   },
   methods: {
     toggleSelection (rows) {
@@ -129,6 +133,7 @@ export default {
       this.$axios.get('/cart')
         .then((res) => {
           this.cartData = res.data.data
+          this.loading = false
         })
         .catch((err) => {
           this.$message({

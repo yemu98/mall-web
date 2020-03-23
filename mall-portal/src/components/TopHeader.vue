@@ -14,13 +14,13 @@
       <template slot="title">
         <i class="el-icon-user-solid"></i>个人中心
       </template>
-      <el-menu-item index="order">
+      <el-menu-item index="/order">
         <i class="el-icon-s-order"></i>我的订单
       </el-menu-item>
-      <el-menu-item index="cart">
+      <el-menu-item index="/cart">
         <i class="el-icon-shopping-cart-full"></i>购物车
       </el-menu-item>
-      <el-menu-item index="adress">
+      <el-menu-item index="/address">
         <i class="el-icon-map-location"></i>地址管理
       </el-menu-item>
       <el-menu-item v-if="isLogin" v-on:click="logout">
