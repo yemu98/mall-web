@@ -18,41 +18,43 @@
 
 <script>
 export default {
-    name: 'addAddress',
-    data () {
-        return {
-            label_position: 'right',
-            address: {
-                name: '',
-                phone: '',
-                address: ''
-            }
-        }
+  name: 'addAddress',
+  data () {
+    return {
+      label_position: 'right',
+      address: {
+        name: '',
+        phone: '',
+        address: ''
+      }
+    }
+  },
+  methods: {
+    reset () {
+      this.address = {}
     },
-    methods: {
-        reset () {
-            this.address = {}
-        },
-        submit () {
-            console.log(this.address)
-            let address = this.qs.stringify(this.address)
-            this.$axios.post('/address',address)
-            .then((res) => {
-                this.$message({
+    submit () {
+      console.log(this.address)
+      let address = this.qs.stringify(this.address)
+      this.$axios.post('/address', address)
+        .then((res) => {
+          this.$message({
             showClose: true,
             message: res.data.message,
             type: 'success'
           })
-            })
-            .catch((err) => {
+          // 返回之前的页面
+          this.$router.go(-1)
+        })
+        .catch((err) => {
           this.$message({
             showClose: true,
             message: err.data.message,
             type: 'error'
           })
-            })
-        }
+        })
     }
+  }
 
 }
 </script>

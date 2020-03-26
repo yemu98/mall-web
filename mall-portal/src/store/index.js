@@ -7,11 +7,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     uid: '',
+    token: '',
     searchContent: '',
     isLogin: false,
     pageNo: 1,
     pageSize: 12,
-    goodCardLoading: false
+    goodCardLoading: false,
+    cart: {
+
+    }
   },
   mutations: {
   },

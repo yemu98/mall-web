@@ -122,11 +122,13 @@ export default {
     }
   },
   mounted: function () {
+    // 先检查是否存在token
     let token = window.localStorage.getItem('token')
     if (token == null || token == '' || token == undefined) {
       this.isLogin = false
     }
     else {
+      // 存在token请求uid判断是否有效
       this.getUid()
     }
   }

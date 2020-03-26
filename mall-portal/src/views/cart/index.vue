@@ -79,7 +79,9 @@ export default {
     }
   },
   created () {
+    // 获取数据
     this.get()
+
   },
   components: {
   },
@@ -134,6 +136,8 @@ export default {
         .then((res) => {
           this.cartData = res.data.data
           this.loading = false
+          // 默认全选
+          this.$refs.multipleTable.toggleAllSelection()
         })
         .catch((err) => {
           this.$message({
@@ -213,12 +217,14 @@ export default {
         })
       }
       else {
-        // console.log(this.selection)
+
+        // 序列化后存储到localstorage中防止刷新页面数据丢失
+        window.localStorage.setItem('cart', JSON.stringify(this.selection))
         // 采用router的params传参时需要使用name匹配而不能使用path
         this.$router.push({
           name: 'createOrder',
           params: {
-            cart: this.selection
+            cartList: this.selection
           }
         })
       }
@@ -229,9 +235,7 @@ export default {
 }
 </script>
 <style scoped>
-.submitOrderBtn {
-  margin-left: 10px;
-}
+
 .cart_bottom {
   display: flex;
   justify-content: flex-start;
@@ -247,6 +251,6 @@ export default {
   margin-left: auto;
   margin-right: 10px;
   color: white;
-  background-color: rgba(231, 48, 48, 0.8);
+  background-color: rgba(231, 48, 48);
 }
 </style>

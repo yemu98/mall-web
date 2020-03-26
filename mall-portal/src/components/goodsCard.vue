@@ -107,8 +107,10 @@ a {
 }
 
 .card-name {
+  
   height: 20px;
-  color: rgb(105, 105, 105);
+  color: black;
+  /* color: rgb(105, 105, 105); */
   overflow: hidden;
 }
 .card-info {
@@ -152,6 +154,7 @@ a {
   text-overflow: ellipsis;
 }
 .name {
+  /* font-weight: 550; */
   overflow: hidden;
   font-size: 15px;
   word-break: break-all;
