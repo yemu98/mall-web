@@ -217,7 +217,6 @@ export default {
         })
       }
       else {
-
         // 序列化后存储到localstorage中防止刷新页面数据丢失
         window.localStorage.setItem('cart', JSON.stringify(this.selection))
         // 采用router的params传参时需要使用name匹配而不能使用path
@@ -235,7 +234,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .cart_bottom {
   display: flex;
   justify-content: flex-start;

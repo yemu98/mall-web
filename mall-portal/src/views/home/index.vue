@@ -6,7 +6,7 @@
       </el-carousel-item>
     </el-carousel>
     <!-- <el-row> -->
-    <el-row class="goods_wrap">
+    <el-row class="goods_wrap" ref="goods">
       <goodsCard
         v-for="(card,index) in cards"
         :key="index"
@@ -40,7 +40,6 @@
   display: flex;
   flex-flow: wrap;
   justify-content: flex-start;
-  
 }
 .goodsCard {
   margin: 5px;
@@ -65,7 +64,6 @@ export default {
         method: 'get',
         url: '/product/getByUser',
         params: {
-          'uid': this.uid,
           'pageNo': this.$store.state.pageNo,
           'pageSize': this.$store.state.pageSize
         }
@@ -106,15 +104,12 @@ export default {
     delete_card (index) {
       this.cards.splice(index, 1)
     },
-    scrollLoad () {
-      // let isLoading = false
+    handleScroll () {
       // 距离200px时加载一次
-      window.onscroll = () => {
-        let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
-        if (bottomOfWindow && !this.$store.state.goodCardLoading) {
-          this.$store.state.goodCardLoading = true
-          this.addCard()
-        }
+      let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
+      if (bottomOfWindow && !this.$store.state.goodCardLoading) {
+        this.$store.state.goodCardLoading = true
+        this.addCard()
       }
     }
   },
@@ -125,10 +120,16 @@ export default {
     this.$store.state.goodCardLoading = true
     this.addCard()
     // 添加滚动事件
-    this.scrollLoad()
+    // this.scrollLoad()
+
+    window.addEventListener('scroll', this.handleScroll, true)
   },
   created () {
     this.uid = this.$store.state.uid
+  },
+  beforeDestroy () {
+    // 在切换页面时取消滚动事件的监听
+    window.removeEventListener('scroll', this.handleScroll, true)
   }
 }
 </script>

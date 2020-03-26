@@ -61,7 +61,7 @@
     <el-button
       class="submitBtn"
       style="margin-top: 12px;"
-      @click="submit()"
+      @click="createOrder()"
       :disabled="submitLoading"
     >提交订单</el-button>
   </div>
@@ -82,15 +82,8 @@ export default {
     }
   },
   mounted () {
-    // 从localstorage中取出序列化的购物车
-    let cartList = JSON.parse(window.localStorage.getItem('cart'))
-    for (let i = 0; i < cartList.length; i++) {
-      // 从后台获取最新的信息防止本地存储的信息过期
-      this.getCartInfo(cartList[i].cartItemId)
-    }
-    // 渲染地址
-    this.getAddress()
-    this.loading = false
+    this.cartList = []
+    this.loadData()
   },
   computed: {
     lastText: function () {
@@ -108,31 +101,37 @@ export default {
     }
   },
   methods: {
+    loadData () {
+      this.loading = true
+      // 从localstorage中取出序列化的购物车
+      let cartList = JSON.parse(window.localStorage.getItem('cart'))
+      for (let i = 0; i < cartList.length; i++) {
+        // 获取最新的信息防止本地存储的信息过期
+        this.getCartInfo(cartList[i].cartItemId)
+      }
+      // 渲染地址
+      this.getAddress()
+      this.loading = false
+    },
+    // 提交所有订单
     submit () {
       this.active++
       this.submitLoading = true
+      let cartItemIdList = []
+      for (let i = 0; i < this.cartList.length; i++) {
+        cartItemIdList.push(this.cartList[i].cartItemId)
+      }
+      // 传递数组时使用{indices: false}序列化为id=1&id=2,而默认序列化方式为id[0]=1&id[1]=2
+      // 有三种序列化数组方式 indices,repeat,brackets
       let data = this.qs.stringify({
         addressId: this.address.id,
         payWay: this.payWay,
-        cartItemId: this.cartList[0].cartItemId
-      })
+        cartItemIdList: cartItemIdList
+      }, { indices: false })
       this.$axios.post("/order", data)
         .then((res) => {
-          if (res.data.status === 200) {
-            this.$message({
-              showClose: true,
-              message: res.data.message,
-              type: 'success'
-            })
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.data.message,
-              type: 'error'
-            })
-          }
+          this.handleRes(res)
           this.submitLoading = false
-          this.$router.push('/order')
         })
         .catch((err) => {
           console.log(err)
@@ -144,6 +143,65 @@ export default {
           this.submitLoading = false
         })
     },
+    async createOrder () {
+      if (this.address === '') {
+        this.$message({
+          showClose: true,
+          message: '请填写地址',
+          type: 'error'
+        })
+        return
+      }
+      this.active++
+      this.submitLoading = true
+      // let cartItemIdList = []
+      for (let i = 0; i < this.cartList.length; i++) {
+        // 等待异步请求完成,再执行下面的代码
+        await this.submitOne(this.cartList[i].cartItemId, this.address.id, this.payWay, "")
+      }
+      this.submitLoading = false
+      // 重新加载数据
+      this.cartList = []
+      this.loadData()
+
+    },
+    // 提交一个订单
+    submitOne (cartItemId, addressId, payWay, remarks) {
+      let data = this.qs.stringify({
+        cartItemId: cartItemId,
+        addressId: addressId,
+        payWay: payWay,
+        remarks: remarks
+      })
+      // 返回一个Promise，其中如果没有异常
+      return this.$axios.post('/order/new', data)
+        .then((res) => {
+          this.handleRes(res)
+        })
+        .catch((err) => {
+          this.$message({
+            showClose: true,
+            message: err,
+            type: 'error'
+          })
+        })
+    },
+    // 处理响应
+    handleRes (res) {
+      if (res.data.status === 200) {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: res.data.message,
+          type: 'error'
+        })
+      }
+    },
     returnCart () {
       this.active--
       this.$router.push('/cart')
@@ -151,14 +209,10 @@ export default {
     getCartInfo (cartItemId) {
       this.$axios.get('/cart/' + cartItemId)
         .then((res) => {
-          this.cartList.push(res.data.data)
-        })
-        .catch((err) => {
-          this.$message({
-            showClose: true,
-            message: err.data.message,
-            type: 'error'
-          })
+          if (res.data.data != null) {
+            // 未找到的不加载
+            this.cartList.push(res.data.data)
+          }
         })
     },
     getAddress () {

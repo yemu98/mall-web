@@ -51,6 +51,12 @@ router.beforeEach((to, from, next) => {
 }
 )
 
+// 路由跳转后滚动条回到顶部
+router.afterEach(() => {
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
+})
+
 // 添加axios拦截器 让请求时在header中带上token
 axios.interceptors.request.use(
   config => {
