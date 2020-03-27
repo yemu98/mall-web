@@ -25,7 +25,7 @@ Vue.component('mallFooter', MallFooter)
 Vue.component('goodsCard', goodsCard)
 
 // 接口根地址
-axios.defaults.baseURL = 'http://127.0.0.1:8081'
+axios.defaults.baseURL = 'http://192.168.43.118:8081'
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */

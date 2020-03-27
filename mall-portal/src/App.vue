@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       minHeight: 0,
-      updateHeader: true
+      updateHeader: true,
     }
   },
   methods: {
@@ -58,5 +58,6 @@ export default {
   min-height: calc(100vh - 120px);
   background: #f5f5f5;
 }
+
 
 </style>

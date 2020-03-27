@@ -25,7 +25,7 @@
       <el-col :span="3">
         <el-input-number v-model="number" :min="1" :max="product.stock" ></el-input-number>
       </el-col>
-      <el-col :span="5" :offset="4">
+      <el-col :span="5" :offset="12">
         <el-button @click="addToCart(product.id,number)" type="danger" :disabled="!product.stock>0">加入购物车</el-button>
       </el-col>
     </el-row>
