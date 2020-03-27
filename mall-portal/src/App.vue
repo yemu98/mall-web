@@ -5,7 +5,7 @@
         <topHeader ref="header" />
       </el-header>
       <el-main>
-        <el-col :span="20" :offset="2">
+        <el-col :xs=" {span:24,offset:0}" :sm="{span:20,offset:2}">
           <router-view />
         </el-col>
       </el-main>

@@ -101,16 +101,16 @@ export default {
     }
   },
   methods: {
-    loadData () {
+    async loadData () {
       this.loading = true
       // 从localstorage中取出序列化的购物车
       let cartList = JSON.parse(window.localStorage.getItem('cart'))
       for (let i = 0; i < cartList.length; i++) {
         // 获取最新的信息防止本地存储的信息过期
-        this.getCartInfo(cartList[i].cartItemId)
+        await this.getCartInfo(cartList[i].cartItemId)
       }
       // 渲染地址
-      this.getAddress()
+      await this.getAddress()
       this.loading = false
     },
     // 提交所有订单
@@ -162,8 +162,10 @@ export default {
       this.submitLoading = false
       // 重新加载数据
       this.cartList = []
-      this.loadData()
-
+      await this.loadData()
+      if (this.cartList.length == 0) {
+        this.$router.push('/order')
+      }
     },
     // 提交一个订单
     submitOne (cartItemId, addressId, payWay, remarks) {
@@ -207,7 +209,7 @@ export default {
       this.$router.push('/cart')
     },
     getCartInfo (cartItemId) {
-      this.$axios.get('/cart/' + cartItemId)
+      return this.$axios.get('/cart/' + cartItemId)
         .then((res) => {
           if (res.data.data != null) {
             // 未找到的不加载
@@ -216,7 +218,7 @@ export default {
         })
     },
     getAddress () {
-      this.$axios.get('/address')
+      return this.$axios.get('/address')
         .then((res) => {
           this.addressList = res.data.data.addressList
           // 设置默认地址

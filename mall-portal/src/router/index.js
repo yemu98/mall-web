@@ -89,6 +89,15 @@ export default new Router({
       }
     },
     {
+      path: '/order',
+      name: 'order',
+      component: () => import('../views/order'),
+      meta: {
+        requireLogin: true,
+        title: '订单'
+      }
+    },
+    {
       path: '/createOrder',
       name: 'createOrder',
       component: () => import('../views/order/createOrder.vue'),

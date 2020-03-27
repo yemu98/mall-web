@@ -33,7 +33,7 @@
             size="small"
             v-model="scope.row.num"
             :min="1"
-            :max="scope.row.product.stock"
+           
             :disabled="isUpdate"
             @change="(currentValue,oldValue) => update(scope.$index,scope.row,currentValue,oldValue)"
           ></el-input-number>

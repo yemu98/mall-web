@@ -133,4 +133,10 @@ export default {
   margin: 5px;
   flex: 1 0 180px;
 }
+@media screen and (max-width: 768px) {
+  .goodsCard {
+    margin: 5px;
+    flex: 1 0 150px;
+  }
+}
 </style>
