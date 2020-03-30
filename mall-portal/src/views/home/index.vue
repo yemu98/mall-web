@@ -16,7 +16,12 @@
         class="goodsCard"
       ></goodsCard>
     </el-row>
-    <loading :loading="this.$store.state.goodCardLoading" :text="loadingText"></loading>
+
+    <loading
+      :loading="this.$store.state.goodCardLoading"
+      :text="loadingText"
+      @click.native="addCard()"
+    ></loading>
     <!-- </el-row> -->
     <el-backtop></el-backtop>
   </div>

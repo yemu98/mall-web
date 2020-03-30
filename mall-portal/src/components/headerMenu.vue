@@ -50,9 +50,7 @@ export default {
       logourl: require('../assets/logo.png'),
       isLogin: false,
       searchContent: '',
-      suggestions: [{
-        'value': 'test'
-      }],
+      suggestions: [],
       drawer: false,
       activeName: '1'
     }
@@ -90,7 +88,6 @@ export default {
       }
     },
     handleSuggestionSelect (item) {
-      console.log(item);
       this.searchContent = item.value
       this.searchSubmit()
     },
@@ -112,6 +109,12 @@ export default {
             this.isLogin = false
           }
         })
+    },
+    getSearchSuggestion (){
+      this.$axios.get('product/search/suggest')
+      .then((res) => {
+        this.suggestions = res.data.data
+      })
     }
   },
   mounted () {
@@ -124,6 +127,8 @@ export default {
       // 存在token请求uid判断是否有效
       this.getUid()
     }
+    // 搜索建议
+    this.getSearchSuggestion()
   },
 
 }

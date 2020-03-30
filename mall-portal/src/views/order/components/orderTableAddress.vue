@@ -1,5 +1,15 @@
 <template>
-  <div>{{address.name}}</div>
+  <div>
+    <el-popover
+      placement="top-start"
+      :title="address.name"
+      width="200"
+      trigger="hover"
+      :content="addressText"
+    >
+      <div slot="reference">{{address.name}}</div>
+    </el-popover>
+  </div>
 </template>
 
 <script>
@@ -13,6 +23,11 @@ export default {
   props: {
     addressId: {
       default: 0
+    }
+  },
+  computed: {
+    addressText () {
+      return this.address.phone+' '+this.address.address
     }
   },
   created () {
