@@ -98,6 +98,15 @@ export default new Router({
       }
     },
     {
+      path: '/order/createReview',
+      name: 'createReview',
+      component: () => import('../views/order/createReview'),
+      meta: {
+        requireLogin: true,
+        title: '评价'
+      }
+    },
+    {
       path: '/createOrder',
       name: 'createOrder',
       component: () => import('../views/order/createOrder.vue'),

@@ -1,14 +1,30 @@
 <template>
   <div>
-    <el-button size="mini" v-if="pay" @click="payBtn">付款</el-button>
-    <el-button size="mini" v-if="confirmReceipt">收货</el-button>
-    <el-button size="mini" v-if="ToEvaluate">评价</el-button>
-    <el-button size="mini" v-if="cancel">取消</el-button>
+    <el-button size="mini" v-if="pay" @click="updateOrder('pay')">付款</el-button>
+    <el-popover placement="top" width="160" v-model="confirmReceiptPopover">
+      <p>确定收货吗？</p>
+      <div style="text-align: right; margin: 0">
+        <el-button size="mini" type="text" @click="confirmReceiptPopover = false">取消</el-button>
+        <el-button
+          type="danger"
+          size="mini"
+          @click="confirmReceiptPopover = false,confirmReceiptBtn()"
+        >确定</el-button>
+      </div>
+      <el-button
+        slot="reference"
+        size="mini"
+        v-if="confirmReceipt"
+        @click="updateOrder('confirmReceipt')"
+      >收货</el-button>
+    </el-popover>
+    <el-button size="mini" v-if="ToReview" @click="toReview()">评价</el-button>
+    <el-button size="mini" v-if="cancel" @click="updateOrder('cancel')">取消</el-button>
     <el-button size="mini" v-if="applyRefund">退款</el-button>
-    <el-button size="mini" v-if="cancelApplyRefund">取消</el-button>
+    <el-button size="mini" v-if="cancelApplyRefund" @click="updateOrder('cancelApplyRefund')">取消</el-button>
     <el-button size="mini" v-if="applyExchange">换货</el-button>
-    <el-button size="mini" v-if="cancelApplyExchange">取消</el-button>
-    <el-button size="mini" v-if="deleteOrder">删除</el-button>
+    <el-button size="mini" v-if="cancelApplyExchange" @click="updateOrder('cancelApplyExchange')">取消</el-button>
+    <el-button size="mini" v-if="deleteOrder" @click="deleteOrderBtn()">删除</el-button>
   </div>
 </template>
 
@@ -19,7 +35,9 @@ export default {
     return {
       pay: false,
       confirmReceipt: false,
-      ToEvaluate: false,
+      confirmReceiptPopover: false,
+      ToReview: false,
+      ToReviewPopover: false,
       cancel: false,
       applyRefund: false,
       cancelApplyRefund: false,
@@ -32,8 +50,8 @@ export default {
     statusCode: {
       default: 0
     },
-    orderId: {
-        default: 0
+    orderNumber: {
+      default: ''
     }
   },
   created () {
@@ -55,7 +73,7 @@ export default {
         break;
       case 3:
         // 待评价 可进行操作 去评价
-        this.ToEvaluate = true
+        this.ToReview = true
         break;
       case 4:
         // 交易完成 可删除
@@ -82,10 +100,43 @@ export default {
     }
   },
   methods: {
-    payBtn () {
-        this.$axios.put("/order/"+this.orderId+"/pay")
-        .then((res)=>{
-            console.log(res)
+    updateOrder (status) {
+      this.$axios.put("/order/" + this.orderNumber + "/" + status)
+        .then((res) => {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'success'
+          })
+          // 重载数据
+          this.$emit("reload")
+        })
+    },
+    deleteOrderBtn () {
+      this.$axios.delete('/order/' + this.orderNumber)
+        .then((res) => {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'success'
+          })
+          // 重载数据
+          this.$emit("reload")
+        })
+    },
+    toReview () {
+      this.$router.push({ path: '/order/createReview', query: { orderNumber: this.orderNumber } })
+    },
+    confirmReceiptBtn () {
+      this.$axios.put('/order/' + this.orderNumber + '/confirmReceipt')
+        .then((res) => {
+          this.$message({
+            showClose: true,
+            message: res.data.message,
+            type: 'success'
+          })
+          // 重载数据
+          this.$emit("reload")
         })
     }
   }

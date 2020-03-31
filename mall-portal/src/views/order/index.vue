@@ -32,7 +32,7 @@
       <el-table-column label="金额" align="center" prop="total"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <orderTableButton :statusCode="scope.row.status" :orderId="scope.row.id"></orderTableButton>
+          <orderTableButton :statusCode="scope.row.status" :orderNumber="scope.row.orderNumber" @reload="reload()"></orderTableButton>
         </template>
       </el-table-column>
     </el-table>
@@ -87,8 +87,10 @@ export default {
     delete () {
 
     },
-    pay (){
-      alert('test')
+    reload (){
+      this.loading = true
+      this.orderData = []
+      this.getData()
     }
   }
 }
