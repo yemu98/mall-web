@@ -13,9 +13,7 @@ export default new Vuex.Store({
     pageNo: 1,
     pageSize: 12,
     goodCardLoading: false,
-    cart: {
-
-    }
+    cart: []
   },
   mutations: {
   },

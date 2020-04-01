@@ -52,7 +52,7 @@ export default {
       searchContent: '',
       suggestions: [],
       drawer: false,
-      activeName: '1'
+      activeName: '1',
     }
   },
   props: {
@@ -110,11 +110,11 @@ export default {
           }
         })
     },
-    getSearchSuggestion (){
+    getSearchSuggestion () {
       this.$axios.get('product/search/suggest')
-      .then((res) => {
-        this.suggestions = res.data.data
-      })
+        .then((res) => {
+          this.suggestions = res.data.data
+        })
     }
   },
   mounted () {

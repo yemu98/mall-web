@@ -7,29 +7,32 @@
       <item-info class="item-info" :product="item.product"></item-info>
     </div>
     <el-divider></el-divider>
-    <el-tabs v-model="activeName" :stretch=true >
-      <el-tab-pane label="商品介绍" name="first" >
+    <el-tabs v-model="activeName" :stretch="true">
+      <el-tab-pane label="商品介绍" name="first">
         <div class="item-detail-wrap">
           <item-detail :detailImgList="this.item.detailImgList"></item-detail>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="评价" name="second">评价</el-tab-pane>
+      <el-tab-pane label="评价" name="second">
+        <itemReviews :pid="item.product.id"></itemReviews>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>   
-import itemPreview from './itemPreview'
-import itemInfo from './itemInfo'
-import itemDetail from './itemDetail';
+import itemPreview from './components/itemPreview'
+import itemInfo from './components/itemInfo'
+import itemDetail from './components/itemDetail';
+import itemReviews from './components/itemReviews'
 export default {
   name: 'item',
   data () {
     return {
+      pid: 0,
       activeName: 'first',
       item: {
-        product: {
-        },
+        product: {},
         imgList: [],
         detailImgList: []
       }
@@ -38,34 +41,54 @@ export default {
   components: {
     'item-preview': itemPreview,
     'item-info': itemInfo,
-    'item-detail': itemDetail
-
+    'item-detail': itemDetail,
+    'itemReviews': itemReviews
   },
   methods: {
-    get () {
-      this.$axios.get('/item/' + this.$route.query.id, {
+    get (pid) {
+      this.$axios.get('/item/' + pid, {
         params: {
-          'id': this.$route.query.id
+          'id': pid
         }
       }).then((res) => {
         this.item = res.data.data
         document.title = this.item.product.name != null ? this.item.product.name : '错误'
       })
         .catch((err) => {
-          console.log(err);
+          this.$message({
+            showClose: true,
+            message: err.response.data.message,
+            type: 'error'
+          })
+
         })
     }
   },
   created () {
-    this.get()
+    this.pid = this.$route.query.id
+    this.get(this.pid)
+  },
+  watch: {
+    $route () {
+      this.pid = this.$route.query.id
+    },
+    pid () {
+      this.get(this.pid)
+    }
   }
 }
 </script>
 
 <style>
-.el-tabs__item:hover{color: rgba(255, 0, 0);}
-.el-tabs__item.is-active{color: rgb(195, 4, 4);}
-.el-tabs__active-bar{background-color: rgba(170, 2, 2);}
+.el-tabs__item:hover {
+  color: rgba(255, 0, 0);
+}
+.el-tabs__item.is-active {
+  color: rgb(195, 4, 4);
+}
+.el-tabs__active-bar {
+  background-color: rgba(170, 2, 2);
+}
 .item-wrap {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   /* border: 1px solid rgb(200, 197, 197); */
