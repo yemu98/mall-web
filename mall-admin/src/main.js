@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/display.css';
 // 导入axios组件
 import axios from 'axios'
 import qs from 'qs'
+// 引入接口地址js
+import apiURL from './js/apiURL';
 
 // vue生产模式 开发模式切换
 Vue.config.productionTip = true
@@ -15,6 +17,8 @@ Vue.use(ElementUI)
 // 全局注册axios
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
+// 全局注册
+Vue.prototype.apiURL = apiURL
 // 接口根地址
 axios.defaults.baseURL = 'http://127.0.0.1:8082'
 new Vue({

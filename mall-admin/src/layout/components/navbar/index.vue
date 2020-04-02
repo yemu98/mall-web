@@ -7,10 +7,10 @@
       </div>
       <div>
         <el-breadcrumb separator="/" class="breadcrumb">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/index' }">活动管理</el-breadcrumb-item>
-          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="(item,index) in this.$route.meta" :key="index">
+            <router-link v-if="item.url" :to="item.url">{{item.title}}</router-link>
+            <a v-else>{{item.title}}</a>
+          </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </el-row>
@@ -25,14 +25,17 @@ export default {
     }
 
   },
-    computed: {
-    isCollapse: function() {
+  computed: {
+    isCollapse: function () {
       return this.$store.state.isCollapse
     }
   },
   methods: {
     flod () {
       this.$store.state.isCollapse = !this.isCollapse
+    },
+    getPath () {
+      console.log(this.$route)
     }
   }
 }
@@ -50,7 +53,7 @@ export default {
 .flod-btn:hover {
   background: rgba(0, 0, 0, 0.05);
 }
-.breadcrumb{
+.breadcrumb {
   vertical-align: middle;
   display: inline-block;
   line-height: 50px;

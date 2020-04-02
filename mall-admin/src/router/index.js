@@ -9,9 +9,12 @@ const routes = [
     path: '/',
     name: 'index',
     component: layout,
-    meta: {
-      title: '首页'
-    }
+    meta: [
+      {
+        title: '首页',
+        url: '/index'
+      }
+    ]
   },
   {
     path: '/about',
@@ -24,21 +27,55 @@ const routes = [
   {
     path: '/product',
     component: layout,
+    meta: [
+      {
+        title: '商品管理',
+        name: '/product'
+      }
+    ],
     children: [
+      {
+        path: '',
+        redirect: 'index'
+      },
       {
         path: 'index',
         component: () => import('../views/product'),
         name: 'product',
-        meta: { title: '商品管理' }
+        meta: [
+          { title: '商品管理', url: '/product' },
+          { title: '商品列表', url: '/product/index' },
+        ]
       },
       {
         path: 'add',
         component: () => import('../views/product/add.vue'),
         name: 'addproduct',
-        meta: { title: '添加商品'}
+        meta: [
+          { title: '商品管理', url: '/product' },
+          { title: '添加商品', url: '/product/add' }]
       }
     ]
 
+  },
+  {
+    path: '/order',
+    component: layout,
+    children: [
+      {
+        path: '',
+        redirect: 'index'
+      },
+      {
+        path: 'index',
+        component: () => import('../views/order'),
+        name: 'order',
+        meta: [
+          { title: '订单管理', url: '/order', },
+          { title: '订单列表', url: '/order/index' }
+        ]
+      }
+    ]
   }
 ]
 

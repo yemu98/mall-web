@@ -1,26 +1,24 @@
+
 <template>
   <div>
-    <el-button size="mini" v-if="pay" @click="updateOrder('pay')">付款</el-button>
-    <el-popover placement="top" width="160" v-model="confirmReceiptPopover">
-      <p>确定收货吗？</p>
+    <el-popover placement="top" width="160" v-model="deliverPopover">
+      <p>确定发货吗？</p>
       <div style="text-align: right; margin: 0">
-        <el-button size="mini" type="text" @click="confirmReceiptPopover = false">取消</el-button>
+        <el-button size="mini" type="text" @click="deliverPopover = false">取消</el-button>
         <el-button
           type="danger"
           size="mini"
-          @click="confirmReceiptPopover = false,confirmReceiptBtn()"
+          @click="deliverPopover = false,updateOrder('deliver')"
         >确定</el-button>
       </div>
       <el-button
         slot="reference"
         size="mini"
-        v-if="confirmReceipt"
-        @click="updateOrder('confirmReceipt')"
-      >收货</el-button>
+        v-if="deliver"
+      >发货</el-button>
     </el-popover>
-    <el-button size="mini" v-if="ToReview" @click="toReview()">评价</el-button>
     <el-button size="mini" v-if="cancel" @click="updateOrder('cancel')">取消</el-button>
-    <el-button size="mini" v-if="applyRefund" @click="updateOrder('applyRefund')">退款</el-button>
+    <el-button size="mini" v-if="applyRefund">退款</el-button>
     <el-button size="mini" v-if="cancelApplyRefund" @click="updateOrder('cancelApplyRefund')">取消</el-button>
     <el-button size="mini" v-if="applyExchange">换货</el-button>
     <el-button size="mini" v-if="cancelApplyExchange" @click="updateOrder('cancelApplyExchange')">取消</el-button>
@@ -33,11 +31,8 @@ export default {
   name: 'orderTableButton',
   data () {
     return {
-      pay: false,
-      confirmReceipt: false,
-      confirmReceiptPopover: false,
-      ToReview: false,
-      ToReviewPopover: false,
+      deliver: false,
+      deliverPopover: false,
       cancel: false,
       applyRefund: false,
       cancelApplyRefund: false,
@@ -57,43 +52,19 @@ export default {
   created () {
     switch (this.statusCode) {
       case 0:
-        // 当前状态已创建订单 可进行操作 支付 取消订单
-        this.pay = true
-        this.cancel = true
+        // 当前状态已创建订单
         break;
       case 1:
-        // 待收货 可进行操作 取消订单
-        this.cancel = true
-        break;
-      case 2:
-        // 待收货 可进行操作 确认收货 申请退款 申请换货
-        this.applyRefund = true
-        this.confirmReceipt = true
-        this.applyExchange = true
-        break;
-      case 3:
-        // 待评价 可进行操作 去评价
-        this.ToReview = true
-        break;
-      case 4:
-        // 交易完成 可删除
-        this.deleteOrder = true
-        break;
-      case 5:
-        // 已取消订单 可删除
-        this.deleteOrder = true
+        // 待发货 可进行操作 发货
+        this.deliver = true
         break;
       case 6:
-        // 退款中 可取消退款
+        // 退款中 可同意退款
         this.cancelApplyRefund = true
         break;
       case 7:
-        // 换货中 可取消
+        // 换货中 可同意换货
         this.cancelApplyExchange = true
-        break;
-      case 8:
-        // 已退款 交易关闭 可删除订单
-        this.deleteOrder = true
         break;
       default:
         break;
@@ -101,7 +72,7 @@ export default {
   },
   methods: {
     updateOrder (status) {
-      this.$axios.put("/order/" + this.orderNumber + "/" + status)
+      this.$axios.patch("/order/" + this.orderNumber + "/" + status)
         .then((res) => {
           this.$message({
             showClose: true,

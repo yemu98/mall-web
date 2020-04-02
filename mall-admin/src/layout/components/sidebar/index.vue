@@ -2,7 +2,7 @@
   <el-aside width="auto" class="sidebar">
     <el-scrollbar style="height:100%">
       <el-menu
-        default-active="1"
+        :default-active="active"
         class="el-menu-vertical"
         @open="handleOpen"
         @close="handleClose"
@@ -31,16 +31,16 @@
             <i class="el-icon-menu"></i>
             <span slot="title">商品管理</span>
           </template>
+          <el-menu-item index="/product/index">商品列表</el-menu-item>
           <el-menu-item index="/product/add">添加商品</el-menu-item>
         </el-submenu>
-        <el-menu-item index="/product/index">
-          <i class="el-icon-menu"></i>
-          <span slot="title">商品管理</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
-        </el-menu-item>
+        <el-submenu index="order">
+          <template slot="title">
+            <i class="el-icon-s-order"></i>
+            <span slot="title">订单管理</span>
+          </template>
+          <el-menu-item index="/order/index">订单列表</el-menu-item>
+        </el-submenu>
         <el-menu-item index="4">
           <i class="el-icon-setting"></i>
           <span slot="title">导航四</span>
@@ -57,12 +57,14 @@ export default {
   },
   data () {
     return {
-
     };
   },
   computed: {
     isCollapse: function () {
       return this.$store.state.isCollapse
+    },
+    active: function () {
+      return this.$route.path
     }
   },
   methods: {
@@ -77,8 +79,8 @@ export default {
 </script>
 
 <style>
-.el-menu-vertical{
-    width: 210px;
+.el-menu-vertical {
+  width: 210px;
 }
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 210px;
@@ -93,7 +95,6 @@ export default {
   z-index: 1001;
   scrollbar-width: none;
   overflow: hidden;
-
 }
 .sidebar:not(.el-menu--collapse) {
   width: 210px;
