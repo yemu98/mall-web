@@ -54,6 +54,16 @@ const routes = [
         meta: [
           { title: '商品管理', url: '/product' },
           { title: '添加商品', url: '/product/add' }]
+      },
+      {
+        path: ':id/edit',
+        component: () => import('../views/product/edit.vue'),
+        name: 'productEdit',
+        meta: [
+          { title: '商品管理', url: '/product' },
+          { title: '商品列表', url: '/product/index' },
+          { title: '商品编辑', url: '/product/edit' }
+        ]
       }
     ]
 

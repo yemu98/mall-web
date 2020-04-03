@@ -15,7 +15,7 @@
       <el-input v-model="product.brand"></el-input>
     </el-form-item>
     <el-form-item label="描述信息" prop="info">
-      <el-input type="textarea" maxlength="40" :show-word-limit="true" v-model="product.info"></el-input>
+      <el-input type="textarea" maxlength="100" :show-word-limit="true" v-model="product.info"></el-input>
     </el-form-item>
     <el-form-item label="价格" prop="price">
       <el-input v-model="product.price"></el-input>
@@ -158,10 +158,13 @@ export default {
       }
       // let product = this.qs.stringify(this.product,{arrayFormat: 'indices', allowDots: true})
       let product = this.product
-      console.log(product)
       this.$axios.post('/product/add', { "product": product, "imgList": imgList }).then((res) => {
-        console.log(res)
-        this.resetFields()
+        this.$message({
+          showClose: true,
+          message: res.data.data.message,
+          type: 'success'
+        })
+        this.resetForm('product')
       })
     },
     resetForm (formName) {

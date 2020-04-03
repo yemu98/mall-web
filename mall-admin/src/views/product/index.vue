@@ -1,57 +1,76 @@
 <template>
-  <el-table
-    :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-    style="width: 100%"
-  >
-    <el-table-column label="Date" prop="date"></el-table-column>
-    <el-table-column label="Name" prop="name"></el-table-column>
-    <el-table-column align="right">
-      <template slot="header">
-        <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-      </template>
-      <template slot-scope="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-input
+      v-model="search"
+      prefix-icon="el-icon-search"
+      placeholder="搜索"
+      @keyup.enter.native="getData(1,pageSize)"
+    ></el-input>
+    <productTable :data="tableData" @reload="reload()"></productTable>
+    <el-row type="flex" class="pagination_wrap">
+      <el-pagination
+        layout="prev, pager, next"
+        background
+        :page-size="pageSize"
+        :total="total"
+        :current-page.sync="currentPage"
+        @current-change="handleCurrentChange"
+      ></el-pagination>
+    </el-row>
+  </div>
 </template>
 
 <script>
+import productTable from './components/table'
 export default {
   name: 'productmgt',
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      search: ''
+      search: '',
+      tableData: [],
+      total: 5,
+      pageSize: 5,
+      pageNo: 1,
+      currentPage: 1,
     }
   },
+  components: {
+    productTable: productTable
+  },
+  computed: {
+  },
+  created () {
+    this.getData(1, 5)
+  },
   methods: {
-    handleEdit (index, row) {
-      console.log(index, row);
+    getData (pageNo, pageSize) {
+      this.$axios.get('/product?search='+this.search, {
+        params: {
+          'pageNo': pageNo,
+          'pageSize': pageSize
+        }
+      })
+        .then((res) => {
+          this.tableData = res.data.data.records
+          this.total = res.data.data.total
+        })
     },
-    handleDelete (index, row) {
-      console.log(index, row);
-    }
+    reload () {
+      this.loading = true
+      this.getData(this.pageNo, this.pageSize)
+    },
+    handleCurrentChange (val) {
+      this.loading = true
+      this.pageNo = val
+      this.getData(val, this.pageSize)
+
+    },
   },
 }
 </script>
 
 <style scoped>
+.pagination_wrap {
+  justify-content: center;
+}
 </style>

@@ -4,7 +4,7 @@
       v-model="search"
       prefix-icon="el-icon-search"
       placeholder="搜索订单（商品名）"
-      @keyup.enter.native="searchOrder()"
+      @keyup.enter.native="getData(1,pageSize)"
     ></el-input>
     <el-table
       v-loading="loading"
@@ -85,6 +85,21 @@ export default {
         {
           text: '交易完成', value: 4
         },
+        {
+          text: '已取消订单', value: 5
+        },
+        {
+          text: '退款中', value: 6
+        },
+        {
+          text: '换货中', value: 7
+        },
+        {
+          text: '交易关闭', value: 8
+        },
+                {
+          text: '已删除', value: 9
+        },
       ]
     }
   },
@@ -104,7 +119,8 @@ export default {
   },
   methods: {
     getData (pageNo, pageSize) {
-      return this.$axios.get('/order', {
+      this.loading = true
+      return this.$axios.get('/order?productName=' + this.search, {
         params: {
           'pageNo': pageNo,
           'pageSize': pageSize
@@ -114,20 +130,23 @@ export default {
           this.orderData = res.data.data.records
           this.total = res.data.data.total
           this.loading = false
+          
         })
     },
     handleCurrentChange (val) {
       this.getData(val, this.pageSize)
+
     },
     filterTag (value, row) {
       return row.status === value;
     },
     searchOrder () {
       this.loading = true
-      this.$axios.get('/order/search?content=' + this.search)
+      this.$axios.get('/order?productName=' + this.search)
         .then((res) => {
           // 更新数据
-          this.orderData = res.data.data
+          this.orderData = res.data.data.records
+          this.total = res.data.data.total
           this.loading = false
         })
     },

@@ -28,6 +28,9 @@ export default {
           })
           this.$axios.post('/review',review)
           .then((res) =>{
+            if (res.data.status==200){
+              this.$router.go(-1)
+            }
               this.$message({
                   showClosr: true,
                   message: res.data.message,

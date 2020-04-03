@@ -8,14 +8,13 @@
         <el-button
           type="danger"
           size="mini"
-          @click="confirmReceiptPopover = false,confirmReceiptBtn()"
+          @click="confirmReceiptPopover = false,updateOrder('confirmReceipt')"
         >确定</el-button>
       </div>
       <el-button
         slot="reference"
         size="mini"
         v-if="confirmReceipt"
-        @click="updateOrder('confirmReceipt')"
       >收货</el-button>
     </el-popover>
     <el-button size="mini" v-if="ToReview" @click="toReview()">评价</el-button>
