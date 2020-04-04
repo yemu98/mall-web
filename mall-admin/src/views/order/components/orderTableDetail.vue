@@ -47,7 +47,8 @@ export default {
         })
     },
     getProduct (pid) {
-      this.$axios.get(this.apiURL.portal+'/product/' + pid)
+
+      this.$axios.get(process.env.VUE_APP_PORTALURL + '/product/' + pid)
         .then((res) => {
           if (res.data.data.product != null) {
             this.product = res.data.data.product
@@ -76,10 +77,10 @@ export default {
 .product_name:hover {
   color: red;
 }
-.order_createTime{
+.order_createTime {
   font-size: 13px;
 }
-.orderNumber{
+.orderNumber {
   font-size: 13px;
 }
 </style>

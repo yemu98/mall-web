@@ -97,7 +97,7 @@ export default {
         {
           text: '交易关闭', value: 8
         },
-                {
+        {
           text: '已删除', value: 9
         },
       ]
@@ -130,7 +130,7 @@ export default {
           this.orderData = res.data.data.records
           this.total = res.data.data.total
           this.loading = false
-          
+
         })
     },
     handleCurrentChange (val) {

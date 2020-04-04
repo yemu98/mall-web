@@ -4,8 +4,6 @@
       <el-menu
         :default-active="active"
         class="el-menu-vertical"
-        @open="handleOpen"
-        @close="handleClose"
         :collapse="isCollapse"
         background-color="#304156"
         text-color="#fff"

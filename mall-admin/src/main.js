@@ -11,7 +11,7 @@ import qs from 'qs'
 // 引入接口地址js
 import apiURL from './js/apiURL';
 
-// vue生产模式 开发模式切换
+// vue生产环境提示
 Vue.config.productionTip = true
 Vue.use(ElementUI)
 // 全局注册axios
@@ -19,8 +19,9 @@ Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
 // 全局注册
 Vue.prototype.apiURL = apiURL
-// 接口根地址
-axios.defaults.baseURL = 'http://127.0.0.1:8082'
+// 接口根地址 生产环境和开发环境地址自动配置
+// axios.defaults.baseURL = 'http://39.105.184.23:8082'
+axios.defaults.baseURL = process.env.VUE_APP_ADMINURL
 new Vue({
   store,
   router,
