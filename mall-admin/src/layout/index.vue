@@ -34,23 +34,25 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main_wrap{
   min-height: 100%;
+  /**留出siderbar收缩前的宽度 */
   margin-left: 210px;
   transition: margin-left .3s;
+  /**  给main设置一个高的z-index可以将sidebar盖住，达到收缩的效果 */
+  background-color: white;
+  z-index: 1001;
+  height: 100vh;
 }
 .el-main {
   background-color: aliceblue;
 }
+/**留出sidebar收缩后的宽度 */
 .isCollapse{
   margin-left: 60px;
 }
 .sidebar{
   position: fixed;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 210px;
-}
-
 </style>

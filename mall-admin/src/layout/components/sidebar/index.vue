@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .el-menu-vertical {
   width: 210px;
 }
@@ -90,7 +90,8 @@ export default {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 1001;
+  /**设置较小的z-index，让main能覆盖sidebar */
+  z-index: 1;
   scrollbar-width: none;
   overflow: hidden;
 }

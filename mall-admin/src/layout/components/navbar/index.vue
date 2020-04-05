@@ -1,7 +1,7 @@
 <template>
   <el-header style="padding:0" height="50px">
     <el-row type="flex">
-      <div class="flod-btn" @click="flod">
+      <div class="flod-btn" @click="flod()">
         <i v-show="!isCollapse" class="el-icon-s-fold"></i>
         <i v-show="isCollapse" class="el-icon-s-unfold"></i>
       </div>
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     flod () {
-      this.$store.state.isCollapse = !this.isCollapse
+      this.$store.state.isCollapse = !this.$store.state.isCollapse
     },
     getPath () {
       console.log(this.$route)
