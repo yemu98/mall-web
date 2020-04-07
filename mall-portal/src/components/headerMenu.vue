@@ -94,26 +94,23 @@ export default {
     searchSubmit () {
       this.$router.push({ path: '/search', query: { searchContent: this.searchContent } })
     },
-    getUid () {
-      this.$axios.get("/getId",
-        {
-          headers: {
-            'token': window.localStorage.getItem('token')
-          }
-        }).then((res) => {
-          if (res.data.data != null) {
-            let uid = res.data.data.uid
-            this.$store.state.uid = uid
-            this.isLogin = true
-          } else {
-            this.isLogin = false
-          }
-        })
-    },
     getSearchSuggestion () {
       this.$axios.get('product/search/suggest')
         .then((res) => {
           this.suggestions = res.data.data
+        })
+    },
+    checkLogin () {
+      this.$axios.get('/isLogin')
+        .then((res) => {
+          if (res.data.status == 200) {
+            this.isLogin = true
+            this.$store.state.isLogin = true
+          }
+          else {
+            this.isLogin = false
+            localStorage.removeItem('token')
+          }
         })
     }
   },
@@ -124,8 +121,8 @@ export default {
       this.isLogin = false
     }
     else {
-      // 存在token请求uid判断是否有效
-      this.getUid()
+      // 存在token判断是否有效
+      this.checkLogin()
     }
     // 搜索建议
     this.getSearchSuggestion()

@@ -15,18 +15,16 @@
         <p class="item-info-status">{{ product.stock>0?'有货':'缺货' }}</p>
       </el-col>
     </el-row>
-    <p class="text">选择版本</p>
-    <el-row class="item-version-wrap">
-      <el-col :span="8" v-for="(item,index) in 5" :key="index" class="item-version">
-        <el-button>版本描{{ index }}</el-button>
-      </el-col>
-    </el-row>
     <el-row class="buy-wrap">
       <el-col :span="3">
-        <el-input-number v-model="number" :min="1" :max="product.stock" ></el-input-number>
+        <el-input-number v-model="number" :min="1" :max="product.stock"></el-input-number>
       </el-col>
       <el-col :span="5" :offset="12">
-        <el-button @click="addToCart(product.id,number)" type="danger" :disabled="!product.stock>0">加入购物车</el-button>
+        <el-button
+          @click="addToCart(product.id,number)"
+          type="danger"
+          :disabled="!product.stock>0"
+        >加入购物车</el-button>
       </el-col>
     </el-row>
   </div>
@@ -56,11 +54,20 @@ export default {
   },
   methods: {
     addToCart (pid, num) {
+      if (!this.$store.state.isLogin){
+         this.$message({
+            showClose: true,
+            message: '请先登录',
+            type: 'error'
+          })
+          this.$router.push('/login')
+          return
+      }
       let cart = this.qs.stringify({
         pid: pid,
         num: num
       })
-      this.$axios.post('/cart',cart
+      this.$axios.post('/cart', cart
       )
         .then((res) => {
           this.$message({

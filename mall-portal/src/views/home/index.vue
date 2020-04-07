@@ -6,6 +6,9 @@
       </el-carousel-item>
     </el-carousel>
     <!-- <el-row> -->
+      <el-divider content-position="left">热销</el-divider>
+      <hot></hot>
+      <el-divider content-position="left">猜你喜欢</el-divider>
     <el-row class="goods_wrap" ref="goods">
       <goodsCard
         v-for="(card,index) in cards"
@@ -29,6 +32,7 @@
 
 <script>
 import loading from '../../components/loading'
+import hot from './components/hot'
 export default {
   data () {
     return {
@@ -37,7 +41,8 @@ export default {
     }
   },
   components: {
-    'loading': loading
+    'loading': loading,
+    hot: hot
   },
   methods: {
     addCard () {

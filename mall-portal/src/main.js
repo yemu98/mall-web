@@ -26,7 +26,32 @@ Vue.component('goodsCard', goodsCard)
 
 // 接口根地址
 // axios.defaults.baseURL = 'http://39.105.184.23:8081'
-axios.defaults.baseURL = 'http://127.0.0.1:8081'
+axios.defaults.baseURL = process.env.VUE_APP_PORTALURL
+
+// 检查是否登录
+function checkLogin (to, next) {
+  // 检查是否存在token
+  if (!localStorage.getItem('token')) {
+    return false
+  }
+  axios.get('/isLogin')
+    .then((res) => {
+      if (res.data.status == 200) {
+        next()
+      } else {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      }
+    })
+    .catch(() => {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    })
+}
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
@@ -36,15 +61,7 @@ router.beforeEach((to, from, next) => {
   next()
   // 需要登录页面拦截
   if (to.matched.some(res => res.meta.requireLogin)) {
-    if (localStorage.getItem('token')) {
-      next()
-    }
-    else {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
-    }
+    checkLogin(to, next)
   }
   else {
     next()

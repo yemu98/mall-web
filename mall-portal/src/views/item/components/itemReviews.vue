@@ -43,7 +43,6 @@ export default {
       this.$axios.get('/product/' + pid + '/review')
         .then((res) => {
           this.reviews = res.data.data
-          console.log(res.data.data)
           this.loading = false
         })
     }
