@@ -2,7 +2,13 @@
   <el-card shadow="hover" :body-style="{ padding: '20px' }">
     <el-row class="card-header">
       <p style="display:none">{{product.id}}</p>
-      <el-button class="unLikeBtn" @click="unLike(product.id)" type="text" title="不喜欢">
+      <el-button
+        class="unLikeBtn"
+        @click="unLike(product.id)"
+        type="text"
+        title="不喜欢"
+        v-if="unLike_disable"
+      >
         <i class="el-icon-close"></i>
       </el-button>
     </el-row>
@@ -37,6 +43,10 @@ export default {
       type: String,
       default () {
       }
+    },
+    unLike_disable: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -71,20 +81,35 @@ export default {
 
 <style scope>
 .el-card:hover {
-  transform: translate(0px, -3px);
-  box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 1);
+  transform: translate(0px, -4px);
 }
 .el-card {
   padding: 0;
   height: 300px;
   width: 180px;
-  border-radius: 5px;
+  border-radius: 0.5em;
+  background: linear-gradient(
+    145deg,
+    var(--color-gradient-start),
+    var(--color-gradient-stop)
+  );
+  --color-gradient-start: #ffffff;
+  --color-gradient-stop: #ffffff;
+  --color-outset-start: #ececec;
+  --color-outset-stop: #ececec;
+  --color-inset-start: rgba(0, 0, 0, 0);
+  --color-inset-stop: rgba(0, 0, 0, 0);
+
+  box-shadow: 0.4em 0.4em 1em var(--color-outset-start),
+    -0.4em -0.4em 1em var(--color-outset-stop),
+    inset 0.2em 0.2em 0.4em var(--color-inset-start),
+    inset -0.2em -0.2em 0.4em var(--color-inset-stop);
 }
 a {
   text-decoration: none;
   outline: none;
 }
-.router-link-active{
+.router-link-active {
   text-decoration: none;
 }
 .card-img {
@@ -107,7 +132,6 @@ a {
 }
 
 .card-name {
-  
   height: 20px;
   color: black;
   /* color: rgb(105, 105, 105); */
@@ -122,8 +146,7 @@ a {
   overflow: hidden;
 }
 .unLikeBtn {
-  color: rgba(0, 0, 0, 0.5);
-  display: none;
+  color: rgba(0, 0, 0, 0.3);
   float: right;
   margin: 0px auto;
   margin-top: -26px;
@@ -167,5 +190,4 @@ a {
   color: rgb(223, 7, 7);
   font-weight: bold;
 }
-
 </style>

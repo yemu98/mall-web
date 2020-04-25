@@ -15,14 +15,14 @@
             <i class="el-icon-location"></i>
             <span slot="title">导航一</span>
           </template>
-          <el-menu-item-group>
-            <span slot="title">分组一</span>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
+        </el-submenu>
+        <el-submenu index="carousel">
+          <template slot="title">
+            <i class="el-icon-postcard"></i>
+            <span slot="title">轮播图管理</span>
+          </template>
+          <el-menu-item index="/carousel/index">轮播图列表</el-menu-item>
+          <el-menu-item index="/carousel/add">添加轮播图</el-menu-item>
         </el-submenu>
         <el-submenu index="product">
           <template slot="title">
@@ -39,6 +39,7 @@
           </template>
           <el-menu-item index="/order/index">订单列表</el-menu-item>
         </el-submenu>
+
         <el-menu-item index="4">
           <i class="el-icon-setting"></i>
           <span slot="title">导航四</span>

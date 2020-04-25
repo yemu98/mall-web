@@ -86,6 +86,44 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/carousel',
+    component: layout,
+    children: [
+      {
+        path: '',
+        redirect: 'index'
+      },
+      {
+        path: 'index',
+        component: () => import('../views/carousel'),
+        name: 'carousel',
+        meta: [
+          { title: '轮播图管理', url: '/carousel' },
+          { title: '列表', url: '/carousel/index' }
+        ]
+      },
+      {
+        path: 'add',
+        component: () => import('../views/carousel/add'),
+        name: 'carouselAdd',
+        meta: [
+          {title: '轮播图管理',url: '/carousel'},
+          {title: '添加',url: '/carousel/add'}
+        ]
+      },
+      {
+        path: ':id/edit',
+        component: () => import('../views/carousel/edit'),
+        name: 'carouselEdit',
+        meta: [
+          { title: '轮播图管理', url: '/carousel' },
+          { title: '列表', url: '/carousel/index' },
+          { title: '编辑', url: '' }
+        ]
+      }
+    ]
   }
 ]
 

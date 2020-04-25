@@ -7,6 +7,7 @@
         :product="data.product"
         :imgUrl="data.imgList[0].url"
         class="goodsCard"
+        :unLike_disable=false
       ></goodsCard>
     </el-row>
   </div>
@@ -17,18 +18,7 @@ export default {
   name: 'hotProducts',
   data () {
     return {
-      hot: [
-        {
-          product: {
-
-          },
-          imgList: [
-            {
-
-            }
-          ]
-        }
-      ]
+      hot: []
     }
   },
   created () {
@@ -36,7 +26,7 @@ export default {
   },
   methods: {
     getData () {
-      this.$axios.get('/product/hot/'+this.$store.state.pageSize)
+      this.$axios.get('/product/hot/' + this.$store.state.pageSize)
         .then((res) => {
           this.hot = res.data.data
           console.log(this.hot)

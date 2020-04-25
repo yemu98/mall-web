@@ -1,14 +1,10 @@
 <template>
   <div>
-    <el-carousel indicator-position="outside">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3>{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
+    <homeCarousel></homeCarousel>
     <!-- <el-row> -->
-      <el-divider content-position="left">热销</el-divider>
-      <hot></hot>
-      <el-divider content-position="left">猜你喜欢</el-divider>
+    <el-divider content-position="left"><span>热销</span></el-divider>
+    <hot></hot>
+    <el-divider content-position="left"><span>猜你喜欢</span></el-divider>
     <el-row class="goods_wrap" ref="goods">
       <goodsCard
         v-for="(card,index) in cards"
@@ -31,6 +27,7 @@
 </template>
 
 <script>
+import homeCarousel from './components/carousel'
 import loading from '../../components/loading'
 import hot from './components/hot'
 export default {
@@ -41,8 +38,9 @@ export default {
     }
   },
   components: {
-    'loading': loading,
-    hot: hot
+    loading: loading,
+    hot: hot,
+    homeCarousel: homeCarousel
   },
   methods: {
     addCard () {
@@ -121,19 +119,6 @@ export default {
 </script>
 
 <style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
 .goods_wrap {
   display: flex;
   flex-flow: wrap;
@@ -143,6 +128,7 @@ export default {
   margin: 5px;
   flex: 1 0 180px;
 }
+
 @media screen and (max-width: 768px) {
   .goodsCard {
     margin: 5px;
