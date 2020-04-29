@@ -79,7 +79,7 @@ export default {
 
 <style scope>
 .el-menu-vertical {
-  width: 210px;
+  width: auto;
 }
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 210px;

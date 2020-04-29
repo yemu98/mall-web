@@ -55,25 +55,9 @@ export default {
   },
   methods: {
     unLike (pid) {
-      this.$emit('unlike', '')// 让父组件删除此组件
-      let uid = this.$store.state.uid
-      let data = this.qs.stringify({
-        uid: uid,
-        pid: pid
-      })
-      this.$axios.post("/user/unlike/add", data).then((res) => {
-        console.log(res)
-      })
-    },
-    click (pid) {
-      let uid = this.$store.state.uid
-      let data = this.qs.stringify({
-        uid: uid,
-        pid: pid
-      })
-      this.$axios.post("/user/history/click/add", data).then((res) => {
-        console.log(res)
-      })
+      // 让父组件删除此组件
+      this.$emit('unlike', '')
+      this.$axios.post("/unlike/"+pid)
     }
   }
 }

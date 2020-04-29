@@ -46,14 +46,14 @@ export default {
     addCard () {
       this.$axios({
         method: 'get',
-        url: '/product/getByUser',
+        url: '/recommend',
         params: {
           'pageNo': this.$store.state.pageNo,
           'pageSize': this.$store.state.pageSize
         }
       }).then((res) => {
         var productlist = []
-        productlist = res.data.data.productList
+        productlist = res.data.data
         if (productlist.length < 1) {
           this.$store.state.goodCardLoading = false
           this.loadingText = '到底啦~~'

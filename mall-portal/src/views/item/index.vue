@@ -66,7 +66,6 @@ export default {
   },
   created () {
     this.pid = this.$route.query.id
-    this.get(this.pid)
   },
   watch: {
     $route () {
