@@ -143,6 +143,13 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/seckill',
+      component: () => import('../views/seckill'),
+      meta: {
+        title: '秒杀'
+      }
+    }
     
   ]
   

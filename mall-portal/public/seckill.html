@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秒杀</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/qs/6.9.4/qs.min.js"></script>
+
+<body>
+    <div>
+        <div class="activity-message">距离开始还剩：
+            <span id="days">00</span>天
+            <span id="hour">22</span>
+            :
+            <span id="min">50</span>
+            :
+            <span id="second">20</span>
+        </div>
+        <button id="seckillBtn" disabled="disabled" onclick="secKill()">秒杀</button>
+    </div>
+
+</body> 
+
+<script>
+    window.onload = getServerTime()
+    var countDown   
+    function getServerTime() {
+        axios.get("http://localhost:8081/seckill/getTime")
+            .then((res) => {
+                var serverTimeStamp = res.data.data;
+                var serverTime = new Date(serverTimeStamp)
+                console.log(serverTime)
+                clearInterval(countDown)
+                countDown(serverTime)
+
+            })
+    }
+
+    function countDown(serverTime) {
+        countDown = setInterval(function () {
+            var now = new Date()
+            var interval = (serverTime - now) / 1000 //差为秒
+            console.log(interval)
+            if (interval <= 0) {
+                document.getElementById("second").innerHTML = 0
+                document.getElementById("seckillBtn").disabled = false
+                clearInterval(countDown)
+            } else {
+                document.getElementById("days").innerHTML = parseInt(interval / 3600 / 24)
+                document.getElementById("hour").innerHTML = parseInt(interval / 3600 % 24)
+                document.getElementById("min").innerHTML = parseInt(interval / 60 % 60)
+                document.getElementById("second").innerHTML = parseInt((interval % 60)+1)
+                interval--
+            }
+
+        }, 1000)
+    }
+    function secKill() {
+        let data = Qs.stringify({ secKillId: 1 })
+        axios.post("http://localhost:8081/seckill/secKill", data)
+            .then((res) => {
+                console.log(res)
+            })
+    }
+
+</script>
+
+</html>
