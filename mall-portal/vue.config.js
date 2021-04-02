@@ -13,5 +13,8 @@ module.exports = {
             }
         }
     },
-    publicPath: './'
+    publicPath: './',
+    devServer: {
+        port: 8084,     // 端口号
+    }
 }
